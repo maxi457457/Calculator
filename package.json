@@ -1,0 +1,18 @@
+{
+  "name": "calculator",
+  "version": "1.0.0",
+  "description": "Trabajo practico",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "better-logging": "^5.0.0",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2"
+  }
+}
