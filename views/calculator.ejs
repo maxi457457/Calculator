@@ -1,134 +1,159 @@
 <style>
-    @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
-    }
-
-    .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
-    }
-
-    input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
-    }
-
-    div {
-        display: flex;
-    }
-
-    button {
-        width: 15vh;
-        height: 15vh;
-        border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
-    }
-
-    .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
-
-    }
-
-    .pantalla {
-        background-color: black;
-    }
-
-    .pantalla-calculadora {
-        background-color: black;
+    body {
+        font-family: 'Roboto', sans-serif;
+        background-color: white;
+        font-weight:bolder;
     }
 
     .calculadora {
-        font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
+        max-width: 400px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: black;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
     }
 
     .pantalla {
-        text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
+        background-color: #0000;
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: right;
+        font-size: 32px;
+        margin-bottom: 10px;
     }
 
-    .pantalla-botones {
+    .buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
+    }
+
+    .button {
         display: flex;
-
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
+        border-radius: 100%;
+        width: 90px;
+        height: 90px;
+        font-size: 20px;
+        cursor: pointer;
     }
 
-    .ColorGris {
-        background-color: rgb(195, 187, 187);
+    .button:hover {
+        background-color: #ddd;
     }
 
-    .ColorNaranja {
-        background-color: orange;
+    .gray {
+        background-color: rgb(51, 51, 51) !important;
+        color: white !important;
     }
+
+    .orange {
+        background-color: rgb(253, 149, 3) !important;
+        color: white !important;
+    }
+
+    .zero {
+        width: 100%;
+        border-radius: 10vh;
+        grid-column: span 2;
+        justify-content: center;
+
+    }
+    
 </style>
 
-
 <div class="calculadora">
-    <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
+    <div class="pantalla" id="pantalla">0</div>
+    <div class="buttons">
+        <div class="button" onclick="LimpiarPantalla()">AC</div>
+        <div class="button" onclick="appendToScreen('(')">(</div>
+        <div class="button" onclick="appendToScreen(')')">)</div>
+        <div class="button orange" onclick="appendToScreen('/')">/</div>
 
-    </div>
-    <div class="containerbtn">
-        <div class="botones">
+        <div class="button gray" onclick="appendToScreen('7')">7</div>
+        <div class="button gray" onclick="appendToScreen('8')">8</div>
+        <div class="button gray" onclick="appendToScreen('9')">9</div>
+        <div class="button orange" onclick="appendToScreen('*')">x</div>
 
+        <div class="button gray" onclick="appendToScreen('4')">4</div>
+        <div class="button gray" onclick="appendToScreen('5')">5</div>
+        <div class="button gray" onclick="appendToScreen('6')">6</div>
+        <div class="button orange" onclick="appendToScreen('-')">-</div>
 
-            <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
+        <div class="button gray" onclick="appendToScreen('1')">1</div>
+        <div class="button gray" onclick="appendToScreen('2')">2</div>
+        <div class="button gray" onclick="appendToScreen('3')">3</div>
+        <div class="button orange" onclick="appendToScreen('+')">+</div>
 
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
-            </div>
-        </div>
+        <div class="button gray zero" onclick="appendToScreen('0')">0</div>
+        <div class="button gray punto" onclick="appendToScreen('.')">.</div>
+        <div class="button orange" onclick="calcular()">=</div>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+    let pantalla = document.getElementById('pantalla');
+    let currentInput = '';
+    let shouldReset = false; // Variable para determinar si se debe restablecer la pantalla
+    let operacionRealizada = false; // Variable para controlar si la operación se ha realizado
 
+    function sendOperationToServer(operationData) {
+        fetch('/agregar-operacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(operationData), // Enviar la operación y el resultado
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    }
+
+    function appendToScreen(value) {
+        if (shouldReset) {
+            shouldReset = false;
+            if (!isNaN(Number(value))) {
+                currentInput = ''; // Borra el resultado previo si se ingresa un número
+            }
+        }
+        currentInput += value;
+        pantalla.innerText = currentInput;
+        operacionRealizada = false; // Restablecer la bandera de operación realizada
+    }
+
+    function LimpiarPantalla() {
+        currentInput = '';
+        pantalla.innerText = '0';
+        operacionRealizada = false; 
+    }
+
+    function calcular() {
+        try {
+            if (!operacionRealizada) {
+                let operacion = currentInput; // Guardar la operación antes de evaluarla
+                let result = eval(currentInput);
+                if (!isNaN(result)) {
+                    currentInput = result.toString();
+                    pantalla.innerText = currentInput;
+                    shouldReset = true;
+                    sendOperationToServer({ operacion: operacion, resultado: result }); // Enviar la operación y el resultado al servidor
+                } else {
+                    pantalla.innerText = 'Error';
+                }
+                operacionRealizada = true; // Marcar que la operación se ha realizado
+            }
+        } catch (error) {
+            currentInput = '';
+            pantalla.innerText = 'Error';
+        }
     }
 </script>
+
+
+

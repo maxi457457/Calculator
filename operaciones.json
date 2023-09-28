@@ -1,0 +1,86 @@
+[
+    {
+        "operacion": "7*8",
+        "resultado": 56
+    },
+    {
+        "operacion": "9*8",
+        "resultado": 72
+    },
+    {
+        "operacion": "72",
+        "resultado": 72
+    },
+    {
+        "operacion": "8*9",
+        "resultado": 72
+    },
+    {
+        "operacion": "72",
+        "resultado": 72
+    },
+    {
+        "operacion": "72-9",
+        "resultado": 63
+    },
+    {
+        "operacion": "234",
+        "resultado": 234
+    },
+    {
+        "operacion": "702",
+        "resultado": 702
+    },
+    {
+        "operacion": "78*8",
+        "resultado": 624
+    },
+    {
+        "operacion": "98/9",
+        "resultado": 10.88888888888889
+    },
+    {
+        "operacion": "78*9",
+        "resultado": 702
+    },
+    {
+        "operacion": "7*8",
+        "resultado": 56
+    },
+    {
+        "operacion": "78*9",
+        "resultado": 702
+    },
+    {
+        "operacion": "78*9",
+        "resultado": 702
+    },
+    {
+        "operacion": "78*9",
+        "resultado": 702
+    },
+    {
+        "operacion": "25*8",
+        "resultado": 200
+    },
+    {
+        "operacion": "200+3",
+        "resultado": 203
+    },
+    {
+        "operacion": "79/9",
+        "resultado": 8.777777777777779
+    },
+    {
+        "operacion": "452*2",
+        "resultado": 904
+    },
+    {
+        "operacion": "0+2",
+        "resultado": 2
+    },
+    {
+        "operacion": "78*9",
+        "resultado": 702
+    }
+]
