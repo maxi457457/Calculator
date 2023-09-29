@@ -15,6 +15,6 @@ app.get('/', (req, res) => {
 });
 
 // Encendemos el servidor
-server.listen(process.env.PORT, () => {
-    console.info(`Servidor corriendo en el puerto ${process.env.PORT}`);
+server.listen(process.env.PORT || 3000, () => {
+    console.info(`Servidor corriendo en el puerto ${process.env.PORT || 3000}`);
 });
