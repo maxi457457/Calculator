@@ -1,7 +1,7 @@
 <div class="calculadora">
     <div class="pantalla">
         <span data-operacion-anterior></span>
-        <input data-operacion-actual class="input-pantalla" type="" name="">
+        <input data-operacion-actual class="input-pantalla" autocomplete="off" type="text" name="">
     </div>
     <div class="botones">
         <button data-clear class="tecla">AC</button>
@@ -11,7 +11,7 @@
         <button data-numero class="ColorGris tecla">7</button>
         <button data-numero class="ColorGris tecla">8</button>
         <button data-numero class="ColorGris tecla">9</button>
-        <button data-operacion class="ColorNaranja tecla">x</button>
+        <button data-operacion class="ColorNaranja tecla">*</button>
         <button data-numero class="ColorGris tecla">4</button>
         <button data-numero class="ColorGris tecla">5</button>
         <button data-numero class="ColorGris tecla">6</button>
@@ -62,31 +62,12 @@
 
         calcular() {
             let cuenta
-            const anterior = parseFloat(this.operacionAnterior)
-            const actual = parseFloat(this.operacionActual)
-            if (isNaN(anterior) || isNaN(actual)) {
-                console.log("ISNAN")
-                return
-            }
+            // const anterior = parseFloat(this.operacionAnterior)
+            // const actual = parseFloat(this.operacionActual)
+            // const operacion = (this.operacion == "x") ? '*' : this.operacion
 
-            switch (this.operacion) {
-                case '+':
-                    cuenta = anterior + actual
-                    break
-                case '-':
-                    cuenta = anterior - actual
-                    break
-                case 'x':
-                    cuenta = anterior * actual
-                    break
-                case '÷':
-                    cuenta = anterior / actual
-                    break
-                default:
-                    return
-            }
+            cuenta = eval(`${this.operacionActual}`)
 
-            console.log(cuenta)
             this.operacionActual = cuenta
             this.operacion = undefined
             this.operacionAnterior = ''
@@ -96,7 +77,9 @@
         // Funcion que formatea el numero ingresado. Limita el ingreso de ceros antes de un punto decimal, agrega comas.
         getDisplayNumber(number) {
             const stringNumber = number.toString()
-            // console.log(stringNumber[-1])
+
+            return stringNumber
+
             const integerDigits = parseFloat(stringNumber.split('.')[0])
             const decimalDigits = stringNumber.split('.')[1]
             let integerDisplay
@@ -106,11 +89,8 @@
                 return stringNumber
             }
 
-            if (isNaN(integerDigits)) {
-                integerDisplay = ''
-            } else {
-                integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-            }
+            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+
             if (decimalDigits != null) {
                 return `${integerDisplay}.${decimalDigits}`
             } else {
@@ -119,8 +99,7 @@
         }
 
         actualizarPantalla() {
-            this.operacionActualElemento.value =
-                this.getDisplayNumber(this.operacionActual)
+            this.operacionActualElemento.value = this.getDisplayNumber(this.operacionActual)
             if (this.operacion != null) {
                 this.operacionAnteriorElemento.innerText =
                     `${this.getDisplayNumber(this.operacionAnterior)} ${this.operacion}`
@@ -150,7 +129,8 @@
 
     operaciones.forEach(boton => {
         boton.addEventListener('click', () => {
-            calculadora.elegirOperacion(boton.innerText)
+            // calculadora.elegirOperacion(boton.innerText)
+            calculadora.agregarNumero(boton.innerText)
             calculadora.actualizarPantalla()
         })
     })
@@ -168,6 +148,27 @@
     // borrar.addEventListener('click', boton => {
     //     calculadora.borrarCaracter()
     //     calculadora.actualizarPantalla()
+    // })
+
+    // operacionActualElemento.addEventListener('keydown', (e) => {
+    //     if (e.shiftKey) {
+    //         if (e.key == '(' || e.key == ')') {
+    //             calculadora.agregarNumero(e.key);
+    //         }
+    //     } else {
+    //         if (e.keyCode >= 48 && e.keyCode <= 57) {
+    //             calculadora.agregarNumero(e.key);
+    //         }
+    //     }
+    //     if (e.key == "/" || e.key == "*" || e.key == "+" || e.key == "-") {
+    //         calculadora.elegirOperacion(e.key)
+    //         calculadora.actualizarPantalla()
+    //         return
+    //     } else if (e.key == 'Enter') {
+    //         calculadora.calcular()
+    //         calculadora.actualizarPantalla()
+    //         return
+    //     }
     // })
 
 </script>
