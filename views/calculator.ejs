@@ -1,154 +1,173 @@
-<style>
-    @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
-    }
-
-    :root {
-        font-size: 15px;
-    }
-
-    .calculadora {
-        font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: 25%;
-        margin: auto;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        border: 1px solid #00000042;
-    }
-
-    .pantalla {
-        width: 100%;
-    }
-
-    .input-pantalla {
-        width: 100%;
-        height: 6rem;
-        border: none;
-        border-bottom: 1px solid #00000042;
-        outline: none;
-        padding: 0px;
-        margin: 0px 0px 1px 0px;
-        
-    }
-
-
-    .botones {
-        display: grid;
-        /* background-color: red; */
-        text-align: center;
-        grid-template-columns: 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-        gap: 5px;
-    }
-
-    .tecla {
-        font-size: 2.5rem;
-        aspect-ratio: 1;
-        border-radius: 100%;
-        cursor: pointer;
-        transition: opacity .1s;
-        border: none;
-        outline: none;
-    }
-
-    .ColorGris {
-        background-color: rgb(195, 187, 187);
-    }
-
-    .ColorNaranja {
-        background-color: orange;
-    }
-
-    .tecla:hover {
-        opacity: .7;
-    }
-
-
-    #cero {
-        grid-column: 1 / 3;
-        aspect-ratio: 0;
-        border-radius: 50px;
-    }
-
-    @media (max-width: 1200px) {
-        :root {
-            font-size: 14px;
-        }
-
-        .calculadora {
-            width: 40%;
-        }
-    }
-
-    @media (max-width: 768px) {
-        :root {
-            font-size: 12px;
-        }
-        .calculadora {
-            width: 50%;
-        }
-    }
-
-    @media (max-width: 576px) {
-        :root {
-            font-size: 12px;
-        }
-        .calculadora {
-            width: 55%;
-        }
-    }
-
-    @media (width < 576px) {
-        :root {
-            font-size: 10px;
-        }
-        .calculadora {
-            width: 70%;
-        }
-    }
-
-    
-    
-</style>
-
-
 <div class="calculadora">
     <div class="pantalla">
-        <input class="input-pantalla" type="" name="mogul">
+        <span data-operacion-anterior></span>
+        <input data-operacion-actual class="input-pantalla" type="" name="">
     </div>
     <div class="botones">
-        <button onclick="borrar()" class="tecla">AC</button>
-        <button onclick="" class="tecla">(</button>
-        <button onclick="" class="tecla">)</button>
-        <button class="ColorNaranja tecla" onclick="dividir()">/</button>
-        <button class="ColorGris tecla" onclick="num(7)">7</button>
-        <button class="ColorGris tecla" onclick="num(8)">8</button>
-        <button class="ColorGris tecla" onclick="num(9)">9</button>
-        <button class="ColorNaranja tecla" onclick="product()">x</button>
-        <button class="ColorGris tecla" onclick="num(4)">4</button>
-        <button class="ColorGris tecla" onclick="num(5)">5</button>
-        <button class="ColorGris tecla" onclick="num(6)">6</button>
-        <button class="ColorNaranja tecla" onclick="rest()">-</button>
-        <button class="ColorGris tecla" onclick="num(1)">1</button>
-        <button class="ColorGris tecla" onclick="num(2)">2</button>
-        <button class="ColorGris tecla" onclick="num(3)">3</button>
-        <button class="ColorNaranja tecla" onclick="suma()">+</button>
-        <button class="ColorGris tecla" id="cero" onclick="num(0)">0</button>
-        <button class="ColorGris tecla" id="punto" onclick="coma()">.</button>
-        <button class="ColorNaranja tecla" id="igual" onclick="resultado()">=</button>
+        <button data-clear class="tecla">AC</button>
+        <button data-numero class="tecla">(</button>
+        <button data-numero class="tecla">)</button>
+        <button data-operacion class="ColorNaranja tecla">÷</button>
+        <button data-numero class="ColorGris tecla">7</button>
+        <button data-numero class="ColorGris tecla">8</button>
+        <button data-numero class="ColorGris tecla">9</button>
+        <button data-operacion class="ColorNaranja tecla">x</button>
+        <button data-numero class="ColorGris tecla">4</button>
+        <button data-numero class="ColorGris tecla">5</button>
+        <button data-numero class="ColorGris tecla">6</button>
+        <button data-operacion class="ColorNaranja tecla">-</button>
+        <button data-numero class="ColorGris tecla">1</button>
+        <button data-numero class="ColorGris tecla">2</button>
+        <button data-numero class="ColorGris tecla">3</button>
+        <button data-operacion class="ColorNaranja tecla">+</button>
+        <button data-numero class="ColorGris tecla" id="cero">0</button>
+        <button data-numero class="ColorGris tecla" id="punto">.</button>
+        <button data-igual class="ColorNaranja tecla" id="igual">=</button>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
 
+    class Calculadora {
+        constructor(operacionAnteriorElemento, operacionActualElemento) {
+            this.operacionAnteriorElemento = operacionAnteriorElemento
+            this.operacionActualElemento = operacionActualElemento
+            this.limpiar()
+        }
+
+        limpiar() {
+            this.operacionActual = ''
+            this.operacionAnterior = ''
+            this.operacion = undefined
+        }
+
+        // borrarCaracter() {
+        //     this.operacionActual = this.operacionActual.toString().slice(0, -1)
+        // }
+
+        agregarNumero(n) {
+            if (n === '.' && this.operacionActual.includes('.')) return
+            this.operacionActual = this.operacionActual.toString() + n.toString()
+        }
+
+        elegirOperacion(operacion) {
+            if (this.operacionActual === '') return
+            if (this.operacionAnterior !== '') {
+                this.calcular()
+            }
+            this.operacion = operacion
+            this.operacionAnterior = this.operacionActual
+            this.operacionActual = ''
+        }
+
+        calcular() {
+            let cuenta
+            const anterior = parseFloat(this.operacionAnterior)
+            const actual = parseFloat(this.operacionActual)
+            if (isNaN(anterior) || isNaN(actual)) {
+                console.log("ISNAN")
+                return
+            }
+
+            switch (this.operacion) {
+                case '+':
+                    cuenta = anterior + actual
+                    break
+                case '-':
+                    cuenta = anterior - actual
+                    break
+                case 'x':
+                    cuenta = anterior * actual
+                    break
+                case '÷':
+                    cuenta = anterior / actual
+                    break
+                default:
+                    return
+            }
+
+            console.log(cuenta)
+            this.operacionActual = cuenta
+            this.operacion = undefined
+            this.operacionAnterior = ''
+        }
+
+
+        // Funcion que formatea el numero ingresado. Limita el ingreso de ceros antes de un punto decimal, agrega comas.
+        getDisplayNumber(number) {
+            const stringNumber = number.toString()
+            // console.log(stringNumber[-1])
+            const integerDigits = parseFloat(stringNumber.split('.')[0])
+            const decimalDigits = stringNumber.split('.')[1]
+            let integerDisplay
+
+            if (stringNumber.slice(-1) == '(' || stringNumber.slice(-1) == ')') {
+                console.log(stringNumber)
+                return stringNumber
+            }
+
+            if (isNaN(integerDigits)) {
+                integerDisplay = ''
+            } else {
+                integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
+            }
+            if (decimalDigits != null) {
+                return `${integerDisplay}.${decimalDigits}`
+            } else {
+                return integerDisplay
+            }
+        }
+
+        actualizarPantalla() {
+            this.operacionActualElemento.value =
+                this.getDisplayNumber(this.operacionActual)
+            if (this.operacion != null) {
+                this.operacionAnteriorElemento.innerText =
+                    `${this.getDisplayNumber(this.operacionAnterior)} ${this.operacion}`
+            } else {
+                this.operacionAnteriorElemento.innerText = ''
+            }
+        }
     }
+
+
+    const numeros = document.querySelectorAll('[data-numero]')
+    const operaciones = document.querySelectorAll('[data-operacion]')
+    const igual = document.querySelector('[data-igual]')
+    // const borrar = document.querySelector('[data-borrar]')
+    const clear = document.querySelector('[data-clear]')
+    const operacionAnteriorElemento = document.querySelector('[data-operacion-anterior]')
+    const operacionActualElemento = document.querySelector('[data-operacion-actual]')
+
+    const calculadora = new Calculadora(operacionAnteriorElemento, operacionActualElemento)
+
+    numeros.forEach(boton => {
+        boton.addEventListener('click', () => {
+            calculadora.agregarNumero(boton.innerText)
+            calculadora.actualizarPantalla()
+        })
+    })
+
+    operaciones.forEach(boton => {
+        boton.addEventListener('click', () => {
+            calculadora.elegirOperacion(boton.innerText)
+            calculadora.actualizarPantalla()
+        })
+    })
+
+    igual.addEventListener('click', boton => {
+        calculadora.calcular()
+        calculadora.actualizarPantalla()
+    })
+
+    clear.addEventListener('click', boton => {
+        calculadora.limpiar()
+        calculadora.actualizarPantalla()
+    })
+
+    // borrar.addEventListener('click', boton => {
+    //     calculadora.borrarCaracter()
+    //     calculadora.actualizarPantalla()
+    // })
+
 </script>

@@ -9,6 +9,8 @@ const { renderView } = require('./src/helpers/renderView');
 
 app.set('view engine', 'ejs');
 
+app.use(express.static(__dirname + '/public'));
+
 // Agregamos rutas al servidor
 app.get('/', (req, res) => {
     renderView(res, 'calculator');
