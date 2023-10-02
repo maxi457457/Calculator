@@ -1,28 +1,28 @@
 <div class="calculadora">
     <div class="pantalla">
-        <span data-operacion-anterior></span>
         <input data-operacion-actual class="input-pantalla" autocomplete="off" type="text" name="">
+        <div data-operacion-temporal></div>
     </div>
     <div class="botones">
-        <button data-clear class="tecla">AC</button>
-        <button data-numero class="tecla">(</button>
-        <button data-numero class="tecla">)</button>
-        <button data-operacion class="ColorNaranja tecla">÷</button>
-        <button data-numero class="ColorGris tecla">7</button>
-        <button data-numero class="ColorGris tecla">8</button>
-        <button data-numero class="ColorGris tecla">9</button>
-        <button data-operacion class="ColorNaranja tecla">*</button>
-        <button data-numero class="ColorGris tecla">4</button>
-        <button data-numero class="ColorGris tecla">5</button>
-        <button data-numero class="ColorGris tecla">6</button>
-        <button data-operacion class="ColorNaranja tecla">-</button>
-        <button data-numero class="ColorGris tecla">1</button>
-        <button data-numero class="ColorGris tecla">2</button>
-        <button data-numero class="ColorGris tecla">3</button>
-        <button data-operacion class="ColorNaranja tecla">+</button>
-        <button data-numero class="ColorGris tecla" id="cero">0</button>
-        <button data-numero class="ColorGris tecla" id="punto">.</button>
-        <button data-igual class="ColorNaranja tecla" id="igual">=</button>
+        <button data-clear class="tecla gris-claro">AC</button>
+        <button data-numero class="tecla gris-claro">(</button>
+        <button data-numero class="tecla gris-claro">)</button>
+        <button data-operacion class="tecla naranja">/</button>
+        <button data-numero class="tecla gris-oscuro">7</button>
+        <button data-numero class="tecla gris-oscuro">8</button>
+        <button data-numero class="tecla gris-oscuro">9</button>
+        <button data-operacion class="tecla naranja">*</button>
+        <button data-numero class="tecla gris-oscuro">4</button>
+        <button data-numero class="tecla gris-oscuro">5</button>
+        <button data-numero class="tecla gris-oscuro">6</button>
+        <button data-operacion class="tecla naranja">-</button>
+        <button data-numero class="tecla gris-oscuro">1</button>
+        <button data-numero class="tecla gris-oscuro">2</button>
+        <button data-numero class="tecla gris-oscuro">3</button>
+        <button data-operacion class="tecla naranja">+</button>
+        <button data-numero class="tecla gris-oscuro" id="cero">0</button>
+        <button data-numero class="tecla gris-oscuro" id="punto">.</button>
+        <button data-igual class="tecla naranja" id="igual">=</button>
     </div>
 </div>
 
@@ -38,84 +38,50 @@
         limpiar() {
             this.operacionActual = ''
             this.operacionAnterior = ''
-            this.operacion = undefined
         }
-
-        // borrarCaracter() {
-        //     this.operacionActual = this.operacionActual.toString().slice(0, -1)
-        // }
 
         agregarNumero(n) {
-            if (n === '.' && this.operacionActual.includes('.')) return
+            if (/[\/*+-.]$/.test(n) && 
+            /[\/*+-]$/.test(this.operacionActual) && 
+            this.operacionActual.includes(".")) return //No permite poner más de un caracter especial
+            if (n == "0" && this.operacionActual == "0") return // No permite ingresar ceros antes de la coma
+            // if (this.operacionActual % 10 && n != '.') return
             this.operacionActual = this.operacionActual.toString() + n.toString()
         }
-
-        elegirOperacion(operacion) {
-            if (this.operacionActual === '') return
-            if (this.operacionAnterior !== '') {
-                this.calcular()
-            }
-            this.operacion = operacion
-            this.operacionAnterior = this.operacionActual
-            this.operacionActual = ''
-        }
-
         calcular() {
             let cuenta
-            // const anterior = parseFloat(this.operacionAnterior)
-            // const actual = parseFloat(this.operacionActual)
-            // const operacion = (this.operacion == "x") ? '*' : this.operacion
-
             cuenta = eval(`${this.operacionActual}`)
-
             this.operacionActual = cuenta
-            this.operacion = undefined
             this.operacionAnterior = ''
         }
 
+        calcularTemporal() {
+            if (/[\/*+-]/.test(this.operacionActual) || /[\/*+-]$/.test(this.operacionActual)) {
+                console.log(true)
+                try {
+                    this.operacionAnterior = eval(`${this.operacionActual}`)
+                } catch (error) {
+                    this.operacionAnterior = ""
+                }
+            }
+        }
 
         // Funcion que formatea el numero ingresado. Limita el ingreso de ceros antes de un punto decimal, agrega comas.
         getDisplayNumber(number) {
-            const stringNumber = number.toString()
-
-            return stringNumber
-
-            const integerDigits = parseFloat(stringNumber.split('.')[0])
-            const decimalDigits = stringNumber.split('.')[1]
-            let integerDisplay
-
-            if (stringNumber.slice(-1) == '(' || stringNumber.slice(-1) == ')') {
-                console.log(stringNumber)
-                return stringNumber
-            }
-
-            integerDisplay = integerDigits.toLocaleString('en', { maximumFractionDigits: 0 })
-
-            if (decimalDigits != null) {
-                return `${integerDisplay}.${decimalDigits}`
-            } else {
-                return integerDisplay
-            }
+            return  number.toString()
         }
 
         actualizarPantalla() {
             this.operacionActualElemento.value = this.getDisplayNumber(this.operacionActual)
-            if (this.operacion != null) {
-                this.operacionAnteriorElemento.innerText =
-                    `${this.getDisplayNumber(this.operacionAnterior)} ${this.operacion}`
-            } else {
-                this.operacionAnteriorElemento.innerText = ''
-            }
+            this.operacionAnteriorElemento.innerText = this.operacionAnterior
         }
     }
-
 
     const numeros = document.querySelectorAll('[data-numero]')
     const operaciones = document.querySelectorAll('[data-operacion]')
     const igual = document.querySelector('[data-igual]')
-    // const borrar = document.querySelector('[data-borrar]')
     const clear = document.querySelector('[data-clear]')
-    const operacionAnteriorElemento = document.querySelector('[data-operacion-anterior]')
+    const operacionAnteriorElemento = document.querySelector('[data-operacion-temporal]')
     const operacionActualElemento = document.querySelector('[data-operacion-actual]')
 
     const calculadora = new Calculadora(operacionAnteriorElemento, operacionActualElemento)
@@ -123,13 +89,13 @@
     numeros.forEach(boton => {
         boton.addEventListener('click', () => {
             calculadora.agregarNumero(boton.innerText)
+            calculadora.calcularTemporal()
             calculadora.actualizarPantalla()
         })
     })
 
     operaciones.forEach(boton => {
         boton.addEventListener('click', () => {
-            // calculadora.elegirOperacion(boton.innerText)
             calculadora.agregarNumero(boton.innerText)
             calculadora.actualizarPantalla()
         })
