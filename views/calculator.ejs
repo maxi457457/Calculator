@@ -41,34 +41,41 @@
         }
 
         agregarNumero(n) {
-            if (/[\/*+-.]$/.test(n) && 
-            /[\/*+-]$/.test(this.operacionActual) && 
-            this.operacionActual.includes(".")) return //No permite poner más de un caracter especial
-            if (n == "0" && this.operacionActual == "0") return // No permite ingresar ceros antes de la coma
-            // if (this.operacionActual % 10 && n != '.') return
+            if (/[\/*+-.]$/.test(n) &&
+                /[\/*+-]$/.test(this.operacionActual) &&
+                this.operacionActual.includes(".")) return //No permite poner más de un caracter especial
+
+            // Chequea que no pueda ingresarse un numero como "05"
+            if (this.operacionActual.charAt(this.operacionActual.length - 1) == "0" && n != ".") {
+                this.operacionActual = this.operacionActual.substring(0, this.operacionActual.length - 1) + n;
+                return  
+            }
             this.operacionActual = this.operacionActual.toString() + n.toString()
         }
         calcular() {
             let cuenta
-            cuenta = eval(`${this.operacionActual}`)
+            cuenta = eval(this.operacionActual)
             this.operacionActual = cuenta
             this.operacionAnterior = ''
         }
 
         calcularTemporal() {
+            console.log(this.operacionActual)
             if (/[\/*+-]/.test(this.operacionActual) || /[\/*+-]$/.test(this.operacionActual)) {
                 console.log(true)
                 try {
-                    this.operacionAnterior = eval(`${this.operacionActual}`)
+                    this.operacionAnterior = eval(this.operacionActual)
+                    console.log(this.operacionAnterior)
                 } catch (error) {
                     this.operacionAnterior = ""
+                    console.log(error)
                 }
             }
         }
 
         // Funcion que formatea el numero ingresado. Limita el ingreso de ceros antes de un punto decimal, agrega comas.
         getDisplayNumber(number) {
-            return  number.toString()
+            return number.toString()
         }
 
         actualizarPantalla() {
