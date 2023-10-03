@@ -1,4 +1,38 @@
-HOLAaaa{"operacion":64,"resultado":64}
-{"operacion":64,"resultado":64}
-{"operacion":64,"resultado":64}
-{"operacion":64,"resultado":64}
+[
+  {
+    "operacion": "8*8",
+    "resultado": 64
+  },
+  {
+    "operacion": "91+3",
+    "resultado": 94
+  },
+  {
+    "operacion": "94+2",
+    "resultado": 96
+  },
+  {
+    "operacion": "223+1",
+    "resultado": 224
+  },
+  {
+    "operacion": "12+3",
+    "resultado": 15
+  },
+  {
+    "operacion": "2+2-4",
+    "resultado": 0
+  },
+  {
+    "operacion": "12-3",
+    "resultado": 9
+  },
+  {
+    "operacion": "123-4",
+    "resultado": 119
+  },
+  {
+    "operacion": "123-3",
+    "resultado": 120
+  }
+]

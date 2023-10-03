@@ -22,27 +22,64 @@ app.get('/', (req, res) => {
 });
 
 // Ruta para agregar una operación al historial
+// Handles the POST request to '/agregar-operacion' route. 
+// Stores the data sent in a JSON file. If the file exists, appends the data to the end of the file. If the file does not exist, creates it.
+
 app.post('/agregar-operacion', (req, res) => {
     const data = req.body;
-    console.log(data)
+    console.log(data);
 
-    // Verificar si la solicitud contiene una operación y un resultado
+    // Check if the request contains an 'operacion' and 'resultado' field
     if (data.hasOwnProperty('operacion') && data.hasOwnProperty('resultado')) {
         const nuevaOperacion = {
             operacion: data.operacion,
             resultado: data.resultado,
         };
 
-        // Write the data to the JSON file
-        fs.appendFile(dbFile, JSON.stringify(nuevaOperacion) + '\n', (err) => {
+        // Read the existing JSON file, if it exists
+        fs.readFile(dbFile, 'utf8', (err, fileData) => {
             if (err) {
-                console.error(err);
-                res.status(500).json({ error: 'Error al escribir en el archivo.' });
+                if (err.code === 'ENOENT') {
+                    // File does not exist, create a new array with the data
+                    const jsonData = [nuevaOperacion];
+                    const jsonString = JSON.stringify(jsonData, null, 2);
+
+                    // Write the JSON data to the file
+                    fs.writeFile(dbFile, jsonString, (err) => {
+                        if (err) {
+                            console.error(err);
+                            res.status(500).json({ error: 'Error al escribir en el archivo.' });
+                        } else {
+                            res.status(200).json({ message: 'Operación agregada correctamente.' });
+                        }
+                    });
+                } else {
+                    console.error(err);
+                    res.status(500).json({ error: 'Error al leer el archivo.' });
+                }
             } else {
-                res.status(200).json({ message: 'Operación agregada correctamente.' });
+                // File exists, parse the existing JSON data
+                let jsonData = [];
+
+                try {
+                    jsonData = JSON.parse(fileData);
+                } catch(e) {
+                    console.log("El archivo está vacío")
+                }
+                jsonData.push(nuevaOperacion);
+                const jsonString = JSON.stringify(jsonData, null, 2);
+
+                // Write the updated JSON data to the file
+                fs.writeFile(dbFile, jsonString, (err) => {
+                    if (err) {
+                        console.error(err);
+                        res.status(500).json({ error: 'Error al escribir en el archivo.' });
+                    } else {
+                        res.status(200).json({ message: 'Operación agregada correctamente.' });
+                    }
+                });
             }
         });
-
     } else {
         res.status(400).json({ error: 'Solicitud incorrecta, se requieren campos "operacion" y "resultado" en el cuerpo.' });
     }

@@ -1,6 +1,6 @@
 <div class="calculadora">
     <div class="pantalla">
-        <input data-operacion-actual class="input-pantalla" autocomplete="off" type="text" name="">
+        <input data-operacion-actual class="input-pantalla" autocomplete="off" type="text" name="" readonly>
         <div data-operacion-temporal></div>
     </div>
     <div class="botones">
@@ -55,9 +55,9 @@
         calcular() {
             let cuenta
             cuenta = eval(this.operacionActual)
-            this.operacionActual = cuenta
-            this.operacionAnterior = ''
             this.sendOperationToServer({ operacion: this.operacionActual, resultado: cuenta });
+            this.operacionActual = this.getDisplayNumber(cuenta)
+            this.operacionAnterior = ''
         }
 
         calcularTemporal() {
@@ -95,8 +95,10 @@
                 .then(response => response.json())
                 .then(data => console.log(data))
                 .catch(error => console.error(error));
+        }
 
-
+        borrarCaracter() {
+            this.operacionActual = this.operacionActual.toString().slice(0, -1)
         }
 
     }
@@ -135,30 +137,21 @@
         calculadora.actualizarPantalla()
     })
 
-    // borrar.addEventListener('click', boton => {
-    //     calculadora.borrarCaracter()
-    //     calculadora.actualizarPantalla()
-    // })
+    // Funcionamiento por teclado
 
-    // operacionActualElemento.addEventListener('keydown', (e) => {
-    //     if (e.shiftKey) {
-    //         if (e.key == '(' || e.key == ')') {
-    //             calculadora.agregarNumero(e.key);
-    //         }
-    //     } else {
-    //         if (e.keyCode >= 48 && e.keyCode <= 57) {
-    //             calculadora.agregarNumero(e.key);
-    //         }
-    //     }
-    //     if (e.key == "/" || e.key == "*" || e.key == "+" || e.key == "-") {
-    //         calculadora.elegirOperacion(e.key)
-    //         calculadora.actualizarPantalla()
-    //         return
-    //     } else if (e.key == 'Enter') {
-    //         calculadora.calcular()
-    //         calculadora.actualizarPantalla()
-    //         return
-    //     }
-    // })
+    window.addEventListener('keydown', (e) => {
+        console.log(e.key)
+        if (e.key == 'Enter') {
+            calculadora.calcular()
+        } else if (e.key == 'Backspace') {
+            calculadora.borrarCaracter()
+        } else if ((e.keyCode >= 48 && e.keyCode <= 57) || (e.key == "/" || e.key == "*" || e.key == "+" || e.key == "-" || e.key == ".")) {
+            calculadora.agregarNumero(e.key)
+        }
+        calculadora.calcularTemporal()
+        calculadora.actualizarPantalla();
+    })
+
+    // NO SE PUEDEN AGREGAR CEROS DECIMALES Y SI SE PUEDE AGREGAR INFINITOS PUNTOS
 
 </script>
