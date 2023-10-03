@@ -41,15 +41,28 @@
         }
 
         agregarNumero(n) {
+            // Evita que el usuario ingrese más de un caracter especial
             if (/[\/*+-.]$/.test(n) &&
-                /[\/*+-]$/.test(this.operacionActual) &&
-                this.operacionActual.includes(".")) return //No permite poner más de un caracter especial
+                /[\/*+-]$/.test(this.operacionActual)) {
+                this.operacionActual = this.operacionActual.substring(0, this.operacionActual.length - 1) + n
+                return
+            } 
 
-            // Chequea que no pueda ingresarse un numero como "05"
-            if (this.operacionActual.charAt(this.operacionActual.length - 1) == "0" && n != ".") {
+            // Chequea que no pueda ingresar mas de un punto decimal
+            let temp = (this.operacionActual.toString() + n.toString()).split(/[\/*+-]/)
+
+            let ultimoNumero = temp[temp.length - 1]
+
+            if ((ultimoNumero.match(/\./g) || []).length > 1 && n == ".") {
+                return
+            }
+
+            // Evita ingresar un número como 05 o 0000.5
+            if (ultimoNumero[0] == "0" && this.operacionActual[this.operacionActual.length - 1] == "0" && n != "." && !this.operacionActual.includes(".")) {
                 this.operacionActual = this.operacionActual.substring(0, this.operacionActual.length - 1) + n;
                 return
             }
+
             this.operacionActual = this.operacionActual.toString() + n.toString()
         }
         calcular() {
@@ -61,15 +74,11 @@
         }
 
         calcularTemporal() {
-            console.log(this.operacionActual)
             if (/[\/*+-]/.test(this.operacionActual) || /[\/*+-]$/.test(this.operacionActual)) {
-                console.log(true)
                 try {
                     this.operacionAnterior = eval(this.operacionActual)
-                    console.log(this.operacionAnterior)
                 } catch (error) {
                     this.operacionAnterior = ""
-                    console.log(error)
                 }
             }
         }
@@ -140,7 +149,6 @@
     // Funcionamiento por teclado
 
     window.addEventListener('keydown', (e) => {
-        console.log(e.key)
         if (e.key == 'Enter') {
             calculadora.calcular()
         } else if (e.key == 'Backspace') {

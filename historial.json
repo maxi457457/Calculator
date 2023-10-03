@@ -34,5 +34,45 @@
   {
     "operacion": "123-3",
     "resultado": 120
+  },
+  {
+    "operacion": "89.3+8",
+    "resultado": 97.3
+  },
+  {
+    "operacion": "86-3",
+    "resultado": 83
+  },
+  {
+    "operacion": "85*3",
+    "resultado": 255
+  },
+  {
+    "operacion": "89*9",
+    "resultado": 801
+  },
+  {
+    "operacion": "86*3",
+    "resultado": 258
+  },
+  {
+    "operacion": "43*3/2",
+    "resultado": 64.5
+  },
+  {
+    "operacion": "293*3",
+    "resultado": 879
+  },
+  {
+    "operacion": "865-3",
+    "resultado": 862
+  },
+  {
+    "operacion": "96*3",
+    "resultado": 288
+  },
+  {
+    "operacion": "65*3",
+    "resultado": 195
   }
 ]
