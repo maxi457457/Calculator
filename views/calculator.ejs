@@ -48,7 +48,7 @@
             // Chequea que no pueda ingresarse un numero como "05"
             if (this.operacionActual.charAt(this.operacionActual.length - 1) == "0" && n != ".") {
                 this.operacionActual = this.operacionActual.substring(0, this.operacionActual.length - 1) + n;
-                return  
+                return
             }
             this.operacionActual = this.operacionActual.toString() + n.toString()
         }
@@ -57,6 +57,7 @@
             cuenta = eval(this.operacionActual)
             this.operacionActual = cuenta
             this.operacionAnterior = ''
+            this.sendOperationToServer({ operacion: this.operacionActual, resultado: cuenta });
         }
 
         calcularTemporal() {
@@ -82,6 +83,22 @@
             this.operacionActualElemento.value = this.getDisplayNumber(this.operacionActual)
             this.operacionAnteriorElemento.innerText = this.operacionAnterior
         }
+
+        sendOperationToServer(operationData) {
+            fetch('/agregar-operacion', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(operationData), // Enviar la operación y el resultado
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error(error));
+
+
+        }
+
     }
 
     const numeros = document.querySelectorAll('[data-numero]')
