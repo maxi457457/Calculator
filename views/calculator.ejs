@@ -4,23 +4,18 @@
         src: url('./../assets/font/Open-24-Display-St.ttf');
     }
 
+
+
+    body {
+        background-color: black;
+        font-family: "Open 24 Display St";
+        margin: 0;
+        padding: 0;
+    }
+
     .botones {
         display: block;
         width: 100vw;
-        padding-left: 38vw;
-    }
-
-    input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
-    }
-
-    div {
-        display: flex;
     }
 
     button {
@@ -29,10 +24,12 @@
         border-radius: 100%;
         font-size: 3.5em;
         margin: 0.3%;
+        border: none;
+        color: white;
     }
 
     .cero {
-        width: 30vh;
+        width: 31.3vh;
         border-radius: 50vh;
         text-align: left;
         padding-left: 35px;
@@ -40,95 +37,139 @@
 
     }
 
-    .pantalla {
-        background-color: black;
-    }
-
-    .pantalla-calculadora {
-        background-color: black;
-    }
 
     .calculadora {
         font-family: 'Open 24 Display St';
         display: flex;
+        justify-content: center;
+        align-items: flex-start;
         flex-direction: column;
-        width: fit-content;
+        height: 100%;
+        background-color: black;
+        padding-left: 30px;
+        max-width: 600px;
+        margin: 0
     }
 
     .pantalla {
+        background-color: black;
+        color: white;
+        font-size: 32px;
+        margin-bottom: 10px;
         text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
+        width: 100%;
     }
 
     .ColorGris {
-        background-color: rgb(195, 187, 187);
+        background-color: rgb(44, 44, 44);
     }
 
     .ColorNaranja {
         background-color: orange;
+    }
+
+    .topBtn {
+        background-color: rgb(121, 121, 121);
     }
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
-
+        <h2 id="display" style="font-family: Open-24-Display-St;">0</h2>
     </div>
     <div class="containerbtn">
         <div class="botones">
-
-
             <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
+                <button class="topBtn" onclick="DisplayClean()">AC</button>
+                <button class="topBtn" onclick="DisplayAdd('(')">(</button>
+                <button class="topBtn" onclick="DisplayAdd(')')">)</button>
+                <button class="ColorNaranja" onclick="DisplayAdd('/')">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
+                <button class="ColorGris" onclick="DisplayAdd(7)">7</button>
+                <button class="ColorGris" onclick="DisplayAdd(8)">8</button>
+                <button class="ColorGris" onclick="DisplayAdd(9)">9</button>
+                <button class="ColorNaranja" onclick="DisplayAdd('*')">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
+                <button class="ColorGris" onclick="DisplayAdd(4)">4</button>
+                <button class="ColorGris" onclick="DisplayAdd(5)">5</button>
+                <button class="ColorGris" onclick="DisplayAdd(6)">6</button>
+                <button class="ColorNaranja" onclick="DisplayAdd('-')">-</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
+                <button class="ColorGris" onclick="DisplayAdd(1)">1</button>
+                <button class="ColorGris" onclick="DisplayAdd(2)">2</button>
+                <button class="ColorGris" onclick="DisplayAdd(3)">3</button>
+                <button class="ColorNaranja" onclick="DisplayAdd('+')">+</button>
             </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+            <div class="botones-num last">
+                <button class="ColorGris cero" onclick="DisplayAdd(0)">0</button>
+                <button class="ColorGris punto" onclick="DisplayAdd('.')">.</button>
+                <button class="ColorNaranja" class="igual" onclick="calcular()">=</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+    let empty = true;
+    let display = document.getElementById("display")
 
+    const DisplayClean = () => {
+        display.textContent = "0";
+        empty = true;
+    }
+
+    const DisplayAdd = (operator) => {
+        if (empty) {
+            if (!isNaN(operator)) {
+                display.textContent = operator
+                empty = false
+            } else {
+                display.textContent = `0${operator}`
+            } 
+        } else {
+            if (isNaN(display.textContent[display.textContent.length - 1])) {
+                if (!isNaN(operator)) {
+                    display.textContent += operator
+                } else {
+                    if (operator == "(" || operator == ")") {
+                        display.textContent += operator
+                    } else display.textContent = display.textContent.slice(0, -1) + operator;
+                }
+            } else {
+                display.textContent += operator;
+            }
+        }
+    }
+    const calcular = () => {
+        try {
+            let cuenta = display.textContent
+            let resultado = eval(display.textContent)
+            display.textContent = resultado
+            let registro =  {
+                cuenta : cuenta,
+                resultado : resultado
+            }
+            fetch('/HistorialAdd', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registro)
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        } catch {
+            display.textContent = "ERROR"
+            DisplayClean()
+        }
     }
 </script>

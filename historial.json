@@ -1,0 +1,30 @@
+[
+  {
+    "cuenta": "6*6",
+    "resultado": 36
+  },
+  {
+    "cuenta": "9*9",
+    "resultado": 81
+  },
+  {
+    "cuenta": "7*7",
+    "resultado": 49
+  },
+  {
+    "cuenta": "23+5",
+    "resultado": 28
+  },
+  {
+    "cuenta": "89*65",
+    "resultado": 5785
+  },
+  {
+    "cuenta": "5785/9",
+    "resultado": 642.7777777777778
+  },
+  {
+    "cuenta": "642.7777777777778*(2*3)",
+    "resultado": 3856.666666666667
+  }
+]
