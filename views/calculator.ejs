@@ -17,6 +17,7 @@
         color: white;
         font-size: 15vh;
         text-align: end;
+        justify-content: center;
     }
 
     div {
@@ -53,14 +54,18 @@
         display: flex;
         flex-direction: column;
         width: fit-content;
+        
+    
+   
     }
 
     .pantalla {
-        text-align: end;
-        width: 45vh;
-        overflow: hidden;
+       text-align: end;
+        width: 40vw;
+        /*overflow: hidden;*/
         margin-left: 38vw;
-    }
+        justify-content: center;
+}
 
     .pantalla-botones {
         display: flex;
@@ -74,12 +79,18 @@
     .ColorNaranja {
         background-color: orange;
     }
+
+
+
+
+
+
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
-        <input type="" name="mogul">
+        <input type="text" id="pantalla" name="mogul" readonly>
         <div class="pantalla-botones">
             <button onclick="borrar2()">X</button>
         </div>
@@ -91,44 +102,100 @@
 
             <div class="botones-fx">
                 <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
+                <button onclick="agregarOperacion ('(')">(</button>
+                <button onclick="agregarOperacion (')')">)</button>
+                <button class="ColorNaranja" onclick="agregarOperacion('/')">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
+                <button class="ColorGris" onclick="mostrarNumero(7)">7</button>
+                <button class="ColorGris" onclick="mostrarNumero(8)">8</button>
+                <button class="ColorGris" onclick="mostrarNumero(9)">9</button>
+                <button class="ColorNaranja" onclick="agregarOperacion('*')">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
+                <button class="ColorGris" onclick="mostrarNumero(4)">4</button>
+                <button class="ColorGris" onclick="mostrarNumero(5)">5</button>
+                <button class="ColorGris" onclick="mostrarNumero(6)">6</button>
+                <button class="ColorNaranja" onclick="agregarOperacion('-')">-</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
+                <button class="ColorGris" onclick="mostrarNumero(1)">1</button>
+                <button class="ColorGris" onclick="mostrarNumero(2)">2</button>
+                <button class="ColorGris" onclick="mostrarNumero(3)">3</button>
+                <button class="ColorNaranja" onclick="agregarOperacion('+')">+</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
+                <button class="ColorGris cero" onclick="mostrarNumero(0)">0</button>
+                <button class="ColorGris punto" onclick="mostrarNumero('.')">.</button>
                 <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
             </div>
+            <div id="historial-container"></div>
         </div>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
 
+let operacionActual = '';
+
+
+    
+//------------------------------------------------------------------------------------------------------------------------------
+    function actualizarPantalla() {
+    document.getElementById('pantalla').value = operacionActual;
     }
+
+
+
+
+    function borrar() {
+        operacionActual = '';
+            actualizarPantalla();
+    
+    }
+
+    function borrar2() {
+        operacionActual = '';
+            actualizarPantalla();
+    
+    }
+
+    function mostrarNumero(numero) {
+        document.getElementById('pantalla').value += numero;
+        operacionActual += numero;
+            actualizarPantalla();
+    }
+
+    function agregarOperacion(operacion) {
+            operacionActual += operacion;
+            actualizarPantalla();
+        }
+
+        function agregarComa() {
+        // Verificar si ya hay una coma en el número actual
+        if (!numeroActual.includes('.')) {
+            // Si no hay una coma, agregarla al número actual
+            numeroActual += '.';
+            actualizarPantalla();
+        }
+    }
+
+        function resultado() {
+            try {
+               
+                const resultado = eval(operacionActual);
+        
+                operacionActual = resultado.toString();
+                actualizarPantalla();
+            } catch (error) {
+                // Maneja errores si es necesario
+                alert('Error en la expresión.');
+            }
+        }
+
+        
+
+
 </script>
