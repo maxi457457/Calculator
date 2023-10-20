@@ -16,5 +16,5 @@ app.get('/', (req, res) => {
 
 // Encendemos el servidor
 server.listen(process.env.PORT, () => {
-    console.info(`Servidor corriendo en el puerto ${process.env.PORT}`);
+    console.info(`Servidor corriendo en el puerto: http://localhost:${process.env.PORT}`);
 });
