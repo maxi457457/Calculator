@@ -90,35 +90,35 @@
 
 
             <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
+                <button onclick="clearDisplay()">AC</button>
                 <button onclick="">(</button>
                 <button onclick="">)</button>
                 <button class="ColorNaranja" onclick="dividir()">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
+                <button class="ColorGris" onclick="addToDisplay('7')">7</button>
+                <button class="ColorGris" onclick="addToDisplay('8')">8</button>
+                <button class="ColorGris" onclick="addToDisplay('9')">9</button>
+                <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
+                <button class="ColorGris" onclick="addToDisplay('4')">4</button>
+                <button class="ColorGris" onclick="addToDisplay('5')">5</button>
+                <button class="ColorGris" onclick="addToDisplay('6')">6</button>
+                <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
+                <button class="ColorGris" onclick="addToDisplay('1')">1</button>
+                <button class="ColorGris" onclick="addToDisplay('2')">2</button>
+                <button class="ColorGris" onclick="addToDisplay('3')">3</button>
+                <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+                <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
+                <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
+                <button class="ColorNaranja" class="igual" onclick="calculate()">=</button>
             </div>
         </div>
     </div>
