@@ -14,12 +14,6 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 
-app.use('/static', express.static(path.join(__dirname, 'src/helpers'), {
-    setHeaders: (res, path, stat) => {
-      res.set('Content-Type', 'application/javascript');
-    }
-  }));
-
 app.use(bodyParser.json());
 
 app.post('/update-history', (req, res) => {
