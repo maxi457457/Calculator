@@ -6,12 +6,19 @@ const app = express();
 const server = require('http').Server(app);
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const path = require('path');
 
 const { renderView } = require('./src/helpers/renderView');
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
+
+app.use('/static', express.static(path.join(__dirname, 'src/helpers'), {
+    setHeaders: (res, path, stat) => {
+      res.set('Content-Type', 'application/javascript');
+    }
+  }));
 
 app.use(bodyParser.json());
 

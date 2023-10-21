@@ -25,21 +25,32 @@ function calculate() {
 }
 
 function updateHistory() {
+    const jsonString = JSON.stringify(history);
+  
+    fetch('/update-history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: jsonString
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Historial actualizado correctamente en el servidor.');
+      } else {
+        console.error('Error al actualizar el historial en el servidor.');
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  
     const historyList = document.getElementById('history-list');
     historyList.innerHTML = '';
     history.forEach(entry => {
-        const listItem = document.createElement('li');
-        listItem.textContent = `${entry.operation} = ${entry.result}`;
-        historyList.appendChild(listItem);
+      const listItem = document.createElement('li');
+      listItem.textContent = `${entry.operation} = ${entry.result}`;
+      historyList.appendChild(listItem);
     });
-
-    // Guardar historial en un archivo JSON
-    const jsonString = JSON.stringify(history);
-    const blob = new Blob([jsonString], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'history.json';
-    a.textContent = 'Descargar historial';
-    document.body.appendChild(a);
-}
+  }
+  
