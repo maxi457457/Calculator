@@ -1,134 +1,326 @@
+
+
 <style>
     @font-face {
         font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
+        src: url('/font/Open24DisplaySt.ttf');
     }
 
-    .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
+    @font-face {
+        font-family: "FreeSansBold";
+        src: url('/font/FreeSansBold.ttf');
     }
 
-    input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
-    }
-
-    div {
+    .general {
         display: flex;
-    }
-
-    button {
-        width: 15vh;
-        height: 15vh;
-        border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
-    }
-
-    .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
-
-    }
-
-    .pantalla {
-        background-color: black;
-    }
-
-    .pantalla-calculadora {
-        background-color: black;
     }
 
     .calculadora {
-        font-family: 'Open 24 Display St';
         display: flex;
         flex-direction: column;
+        height: 100%;
+        background-color: black;
         width: fit-content;
+        padding: 25px;
+        padding-top: 0;
+        border-radius: 3%;
+
     }
 
     .pantalla {
+        color: white;
         text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
+        height: 15vh;
     }
 
-    .pantalla-botones {
-        display: flex;
+    #formulario  {
+        height: 100%;
+    }
+
+    #formulario input {
+        font-family: "Open 24 Display St";
+        background-color: #22222200; /* Cambia el color de fondo a gris oscuro */
+        color: white; /* Cambia el color del texto a blanco */
+        font-size: 5vh; /* Cambia el tamaño del texto a 24px */
+        border: 2px solid #ffa60000; /* Cambia el borde a un borde de 2px de color naranja */
+        border-radius: 0px; /* Agrega un borde redondeado de 10px */
+        height: 90%;
+        outline: none; /* Desactiva el resaltado/foco del input */
+        text-align: end;
+    }
+
+    .botones {
+        display: grid;
+        grid-template-columns: repeat(4, 0fr);
+        gap: 10px;
+    }
+
+    button {
+        font-family: "FreeSansBold";
+        width: 15vh;
+        height: 15vh;
+        border-radius: 50%;
+        font-size: 5.5vh;
+        border: none;
+        color: rgb(255, 255, 255);
+        align-self: center;
+        justify-self: center;
+        transition: all .3s;
+    }
+
+    button:hover {
+        opacity: 0.7;
+        font-size: 4.75vh;
+    }
+
+    button:active {
+        width: 90%;
+        height: 90%;
+        font-size: 4vh;
+        opacity: 0.5;
+    }
+
+    .cero {
+        width: 100%;
+        border-radius: 50vh;
+        text-align: left;
+        grid-column: span 2;
+        text-indent: 3.5vh;
+    }
+
+    .topBtn {
+        background-color: rgb(121, 121, 121);
+        color: black;
 
     }
 
     .ColorGris {
-        background-color: rgb(195, 187, 187);
+        background-color: rgb(44, 44, 44);
     }
 
     .ColorNaranja {
         background-color: orange;
     }
+
+    .historial {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 5px;
+        margin: 20px;
+        width: 100%;
+    }
+
+    .historial-top {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .historial h2 {
+        font-family: "FreeSansBold";
+        margin-top: 22px;
+        font-size: 20px;
+    }
+
+    #historial-list {
+        font-family: "Open 24 Display St";
+        list-style: none;
+        padding: 0;
+        font-size: 20px;
+    }
+
+    .historial-index {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .historial-calculo {
+        margin-right: 5px;
+    }
+
+    .historial-resultado {
+        margin: 0 5px;
+    }
+
+    .historial-valor {
+        font-weight: bold;
+    }
+
+    /* Estilo para el botón de borrar historial */
+    .borrar-historial-btn {
+        font-family: "FreeSansBold";
+        width: auto;
+        height: 50px;
+        background-color: #ff6347; /* Color de fondo naranja */
+        color: white; /* Texto en color blanco */
+        border: none; /* Sin borde */
+        border-radius: 10px; /* Bordes redondeados */
+        padding: 5px 10px; /* Espaciado interno del botón */
+        cursor: pointer; /* Cambia el cursor al pasar por encima */
+        font-size: 16px; /* Tamaño del texto */
+        margin: 10px; /* Espacio superior */
+    }
+
+    /* Estilo para el botón de borrar historial al pasar el cursor por encima */
+    .borrar-historial-btn:hover {
+        background-color: #ff4636; /* Cambia el color de fondo al pasar por encima */
+        width: auto;
+        height: 50px;
+        align-self: center;
+        justify-self: center;
+        font-size: 15px; /* Tamaño del texto */
+    }
+
+    .borrar-historial-btn:active {
+        background-color: #ff7467; /* Cambia el color de fondo al pasar por encima */
+        width: auto;
+        height: 50px;
+        align-self: center;
+        justify-self: center;
+        font-size: 14px; /* Tamaño del texto */
+    }
+
+    @media (max-width: 768px) {
+        .general {
+         display: block;
+        }
+        .historial {
+            width: auto;
+        }
+
 </style>
-
-
-<div class="calculadora">
-    <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
+<div class="general">
+    <div class="calculadora">
+        <div class="pantalla">
+            <form id="formulario">
+                <input type="text" name="mogul">
+            </form>
         </div>
-
+        <div class="containerbtn">
+            <div class="botones">
+                <button class="topBtn" onclick="Borrar()">AC</button>
+                <button class="topBtn" onclick="Escribir('(')">(</button>
+                <button class="topBtn" onclick="Escribir(')')">)</button>
+                <button class="ColorNaranja" onclick="Escribir('/')">/</button>
+                <button class="ColorGris" onclick="Escribir(7)">7</button>
+                <button class="ColorGris" onclick="Escribir(8)">8</button>
+                <button class="ColorGris" onclick="Escribir(9)">9</button>
+                <button class="ColorNaranja" onclick="Escribir('*')">x</button>
+                <button class="ColorGris" onclick="Escribir(4)">4</button>
+                <button class="ColorGris" onclick="Escribir(5)">5</button>
+                <button class="ColorGris" onclick="Escribir(6)">6</button>
+                <button class="ColorNaranja" onclick="Escribir('-')">-</button>
+                <button class="ColorGris" onclick="Escribir(1)">1</button>
+                <button class="ColorGris" onclick="Escribir(2)">2</button>
+                <button class="ColorGris" onclick="Escribir(3)">3</button>
+                <button class="ColorNaranja" onclick="Escribir('+')">+</button>
+                <button class="ColorGris cero" onclick="Escribir(0)">0</button>
+                <button class="ColorGris punto" onclick="Escribir('.')">.</button>
+                <button class="ColorNaranja igual" type="button" onclick="Calcular()">=</button>
+            </div>
+        </div>
     </div>
-    <div class="containerbtn">
-        <div class="botones">
-
-
-            <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
-            </div>
+    <div class="historial">
+        <div class="historial-top">
+            <h2>Historial</h2>
+            <button class="borrar-historial-btn" type="button" onclick="BorrarHistorial()">Borrar</button>
         </div>
+        <ul id="historial-list">
+        </ul>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+    // inicializa variables
+    let pantalla = document.querySelector('input[name="mogul"]');
+    const historialList = document.getElementById('historial-list');
+    let vacio = true;
+    const eventSource = new EventSource('/sse');
 
+    // Escucha eventos SSE
+    eventSource.onmessage = (event) => {
+        const historial = JSON.parse(event.data);
+        // Actualizar la lista de historial en el cliente
+        historialList.innerHTML = historial.map((item) => {
+            return `<li>${item.calculo}<strong> = </strong> ${item.resultado}</li>`;
+        }).join('');
+    };
+
+    // Borra el contenido de la pantalla de la calculadora
+    const Borrar = () => {
+        pantalla.value = "0";
+        vacio = true;
+    }
+
+    // escribe números y operadores en la pantalla
+    const Escribir = (operator) => {
+        if (vacio) {
+            if (!isNaN(operator)) {
+                pantalla.value = operator;
+                vacio = false;
+            } else {
+                pantalla.value = `0${operator}`;
+            } 
+        } else {
+            if (isNaN(pantalla.value[pantalla.value.length - 1])) {
+                if (!isNaN(operator)) {
+                    pantalla.value += operator;
+                } else {
+                    if (operator === "(" || operator === ")") {
+                        pantalla.value += operator;
+                    } else {
+                        pantalla.value = pantalla.value.slice(0, -1) + operator;
+                    }
+                }
+            } else {
+                pantalla.value += operator;
+            }
+        }
+    }
+
+    // Da el resultado y agrega al historial
+    const Calcular = () => {
+        try {
+            let calculo = pantalla.value;
+            let resultado = eval(pantalla.value);
+            pantalla.value = resultado;
+            let registro = {
+                calculo: calculo,
+                resultado: resultado
+            };
+            fetch('/AgregarAlHistorial', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registro)
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        } catch {
+            pantalla.value = "ERROR";
+            Borrar();
+        }
+    }
+
+    // Borra el historial
+    const BorrarHistorial = () => {
+        fetch('/BorrarElHistorial', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Actualizar la página o realizar cualquier otra acción necesaria
+            console.log('Historial borrado');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
     }
 </script>
