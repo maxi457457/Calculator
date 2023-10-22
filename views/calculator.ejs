@@ -5,9 +5,9 @@
     }
 
     .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 10px;
     }
 
     input {
@@ -19,24 +19,21 @@
         text-align: end;
     }
 
-    div {
-        display: flex;
-    }
-
     button {
-        width: 15vh;
-        height: 15vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f0f0f0;
         border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
+        width: 90px;
+        height: 90px;
     }
 
     .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
+        width: 100%;
+        border-radius: 10vh;
+        grid-column: span 2;
+        justify-content: center;
 
     }
 
@@ -50,9 +47,11 @@
 
     .calculadora {
         font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
+        max-width: 400px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: black;
     }
 
     .pantalla {
@@ -63,11 +62,6 @@
         text-align: right;
         font-size: 32px;
         margin-bottom: 10px;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
     }
 
     .ColorGris {
@@ -83,66 +77,38 @@
 <div class="calculadora">
     <div class="pantalla" id="Screen">0</div>
     <div class="botones">
+        <button onclick="clearDisplay()">AC</button>
+        <button onclick="addToDisplay('(')">(</button>
+        <button onclick="addToDisplay(')')">)</button>
+        <button class="ColorNaranja" onclick="addToDisplay('/')">/</button>
 
-        <div class="botones-fx">
-            <button onclick="clearDisplay()">AC</button>
-            <button onclick="addToDisplay('(')">(</button>
-            <button onclick="addToDisplay(')')">)</button>
-            <button class="ColorNaranja" onclick="addToDisplay('/')">/</button>
-        </div>
+        <button class="ColorGris" onclick="addToDisplay('7')">7</button>
+        <button class="ColorGris" onclick="addToDisplay('8')">8</button>
+        <button class="ColorGris" onclick="addToDisplay('9')">9</button>
+        <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
 
-        <div class="botones-num">
-            <button class="ColorGris" onclick="addToDisplay('7')">7</button>
-            <button class="ColorGris" onclick="addToDisplay('8')">8</button>
-            <button class="ColorGris" onclick="addToDisplay('9')">9</button>
-            <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
-        </div>
+        <button class="ColorGris" onclick="addToDisplay('4')">4</button>
+        <button class="ColorGris" onclick="addToDisplay('5')">5</button>
+        <button class="ColorGris" onclick="addToDisplay('6')">6</button>
+        <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
 
-        <div class="botones-num">
-            <button class="ColorGris" onclick="addToDisplay('4')">4</button>
-            <button class="ColorGris" onclick="addToDisplay('5')">5</button>
-            <button class="ColorGris" onclick="addToDisplay('6')">6</button>
-            <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
-        </div>
-        <div class="botones-num">
-            <button class="ColorGris" onclick="addToDisplay('1')">1</button>
-            <button class="ColorGris" onclick="addToDisplay('2')">2</button>
-            <button class="ColorGris" onclick="addToDisplay('3')">3</button>
-            <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
-        </div>
-        <div class="botones-num">
-            <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
-            <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
-            <button class="ColorNaranja" class="igual" onclick="calculate()">=</button>
-        </div>
+        <button class="ColorGris" onclick="addToDisplay('1')">1</button>
+        <button class="ColorGris" onclick="addToDisplay('2')">2</button>
+        <button class="ColorGris" onclick="addToDisplay('3')">3</button>
+        <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
+
+        <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
+        <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
+        <button class="ColorNaranja" onclick="calculate()">=</button>
+
     </div>
 </div>
 <script>
     let displayValue = '';
     let history = [];
-
-    function addToDisplay(value) {
-        displayValue += value;
-        document.getElementById('display').value = displayValue;
-    }
-
-    function clearDisplay() {
-        displayValue = '';
-        document.getElementById('display').value = displayValue;
-    }
-
-    function calculate() {
-        try {
-            const result = eval(displayValue);
-            history.push({ operation: displayValue, result: result });
-            updateHistory();
-            displayValue = result.toString();
-            document.getElementById('display').value = displayValue;
-        } catch (error) {
-            displayValue = 'Error';
-            document.getElementById('display').value = displayValue;
-        }
-    }
+    let screen = document.getElementById('Screen');
+    let operacion = false;
+    let reset = false;
 
     function updateHistory() {
         const jsonString = JSON.stringify(history);
@@ -154,25 +120,50 @@
             },
             body: jsonString
         })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Historial actualizado correctamente en el servidor.');
-                } else {
-                    console.error('Error al actualizar el historial en el servidor.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
 
-        const historyList = document.getElementById('history-list');
-        historyList.innerHTML = '';
-        history.forEach(entry => {
-            const listItem = document.createElement('li');
-            listItem.textContent = `${entry.operation} = ${entry.result}`;
-            historyList.appendChild(listItem);
-        });
     }
 
 
+    function addToDisplay(value) {
+        if (reset) {
+            reset = false;
+            if (!isNaN(Number(value))) {
+                displayValue = '';
+            }
+        }
+        displayValue += value;
+        screen.innerText = displayValue;
+        operacion = false;
+    }
+
+    function clearDisplay() {
+        displayValue = '';
+        screen.innerText = '0';
+        operacion = false;
+    }
+
+    function calculate() {
+        try {
+            if (!operacion) {
+                let operacion = displayValue;
+                let result = eval(displayValue);
+                if (!isNaN(result)) {
+                    displayValue = result.toString();
+                    screen.innerText = displayValue;
+                    shouldReset = true;
+                    history.push({ operation: displayValue, result: resultado });
+                    updateHistory();
+                } else {
+                    screen.innerText = 'Error';
+                }
+                operacion = true;
+            }
+        } catch (error) {
+            displayValue = '';
+            screen.innerText = 'Error';
+        }
+    }
 </script>
