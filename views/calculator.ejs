@@ -1,7 +1,7 @@
 <div class="calculadora">
     <div class="pantalla">
         <input data-operacion-actual class="input-pantalla" autocomplete="off" type="text" name="" readonly>
-        <div data-operacion-temporal></div>
+        <div data-operacion-temporal ></div>
     </div>
     <div class="botones">
         <button data-clear class="tecla gris-claro">AC</button>
@@ -91,6 +91,8 @@
         actualizarPantalla() {
             this.operacionActualElemento.value = this.getDisplayNumber(this.operacionActual)
             this.operacionAnteriorElemento.innerText = this.operacionAnterior
+            this.operacionActualElemento.scrollLeft = this.operacionActualElemento.scrollWidth
+            this.operacionAnteriorElemento.scrollLeft = this.operacionAnteriorElemento.scrollWidth
         }
 
         sendOperationToServer(operationData) {

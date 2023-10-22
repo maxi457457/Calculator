@@ -74,5 +74,13 @@
   {
     "operacion": "65*3",
     "resultado": 195
+  },
+  {
+    "operacion": "123123*3",
+    "resultado": 369369
+  },
+  {
+    "operacion": "887745*9",
+    "resultado": 7989705
   }
 ]

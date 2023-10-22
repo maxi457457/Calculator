@@ -27,7 +27,7 @@
     border: 1px solid #00000042;
     padding: 10px;
     background-color: #000000;
-    border-radius:15px ;
+    border-radius: 15px;
     max-width: 340px;
 }
 
@@ -38,7 +38,7 @@
     height: 10rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .input-pantalla {
@@ -51,8 +51,10 @@
     background-color: black;
     color: white;
     font-size: 4rem;
-    padding-right:10px ;
+    padding-right: 10px;
     text-align: right;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .pantalla div {
@@ -61,7 +63,8 @@
     text-align: right;
     font-size: 2.5rem;
     height: 2rem;
-    padding-right:10px ;
+    padding-right: 10px;
+    margin-bottom:10px;
 }
 
 .botones {
@@ -91,6 +94,7 @@
     background-color: rgb(215, 206, 206);
     color: black;
 }
+
 .naranja {
     background-color: orange;
 }
@@ -110,7 +114,7 @@
     :root {
         font-size: 14px;
     }
-    
+
     .calculadora {
         width: 40%;
         max-width: 350px;
@@ -121,18 +125,21 @@
     :root {
         font-size: 12px;
     }
+
     .calculadora {
         width: 50%;
     }
 }
 
 @media (max-width: 576px) {
-    body{
+    body {
         background-color: #000000;
     }
+
     :root {
         font-size: 12px;
     }
+
     .calculadora {
         width: 95%;
         max-width: 380px;
@@ -143,9 +150,8 @@
     :root {
         font-size: 10px;
     }
+
     .calculadora {
         width: 90%;
     }
 }
-
-
