@@ -56,10 +56,13 @@
     }
 
     .pantalla {
-        text-align: start;
-        width: 45vw;
-        overflow: hidden;
-        margin-left: 38vw;
+        background-color: #0000;
+        color: white;
+        border-radius: 5px;
+        padding: 10px;
+        text-align: right;
+        font-size: 32px;
+        margin-bottom: 10px;
     }
 
     .pantalla-botones {
@@ -78,45 +81,39 @@
 
 
 <div class="calculadora">
-    <div class="pantalla">
-        <input type="text" id="display" disabled>
+    <div class="pantalla" id="Screen">0</div>
+    <div class="botones">
 
-    </div>
-    <div class="containerbtn">
-        <div class="botones">
+        <div class="botones-fx">
+            <button onclick="clearDisplay()">AC</button>
+            <button onclick="addToDisplay('(')">(</button>
+            <button onclick="addToDisplay(')')">)</button>
+            <button class="ColorNaranja" onclick="addToDisplay('/')">/</button>
+        </div>
 
+        <div class="botones-num">
+            <button class="ColorGris" onclick="addToDisplay('7')">7</button>
+            <button class="ColorGris" onclick="addToDisplay('8')">8</button>
+            <button class="ColorGris" onclick="addToDisplay('9')">9</button>
+            <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
+        </div>
 
-            <div class="botones-fx">
-                <button onclick="clearDisplay()">AC</button>
-                <button onclick="addToDisplay('(')">(</button>
-                <button onclick="addToDisplay(')')">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="addToDisplay('7')">7</button>
-                <button class="ColorGris" onclick="addToDisplay('8')">8</button>
-                <button class="ColorGris" onclick="addToDisplay('9')">9</button>
-                <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="addToDisplay('4')">4</button>
-                <button class="ColorGris" onclick="addToDisplay('5')">5</button>
-                <button class="ColorGris" onclick="addToDisplay('6')">6</button>
-                <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="addToDisplay('1')">1</button>
-                <button class="ColorGris" onclick="addToDisplay('2')">2</button>
-                <button class="ColorGris" onclick="addToDisplay('3')">3</button>
-                <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
-                <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
-                <button class="ColorNaranja" class="igual" onclick="calculate()">=</button>
-            </div>
+        <div class="botones-num">
+            <button class="ColorGris" onclick="addToDisplay('4')">4</button>
+            <button class="ColorGris" onclick="addToDisplay('5')">5</button>
+            <button class="ColorGris" onclick="addToDisplay('6')">6</button>
+            <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
+        </div>
+        <div class="botones-num">
+            <button class="ColorGris" onclick="addToDisplay('1')">1</button>
+            <button class="ColorGris" onclick="addToDisplay('2')">2</button>
+            <button class="ColorGris" onclick="addToDisplay('3')">3</button>
+            <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
+        </div>
+        <div class="botones-num">
+            <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
+            <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
+            <button class="ColorNaranja" class="igual" onclick="calculate()">=</button>
         </div>
     </div>
 </div>
@@ -135,17 +132,17 @@
     }
 
     function calculate() {
-    try {
-        const result = eval(displayValue);
-        history.push({ operation: displayValue, result: result });
-        updateHistory();
-        displayValue = result.toString();
-        document.getElementById('display').value = displayValue;
-    } catch (error) {
-        displayValue = 'Error';
-        document.getElementById('display').value = displayValue;
+        try {
+            const result = eval(displayValue);
+            history.push({ operation: displayValue, result: result });
+            updateHistory();
+            displayValue = result.toString();
+            document.getElementById('display').value = displayValue;
+        } catch (error) {
+            displayValue = 'Error';
+            document.getElementById('display').value = displayValue;
+        }
     }
-}
 
     function updateHistory() {
         const jsonString = JSON.stringify(history);
