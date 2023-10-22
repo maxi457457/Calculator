@@ -21,7 +21,13 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        background-color: yellow;
+    }
+
+    .gray{
+        background-color: gray;
+    }
+    .orange{
+        background-color: orange;
     }
 
     .pantalla {
@@ -33,16 +39,16 @@
         padding: 10px;
         font-size: 1.5em;
         margin-bottom: 10px;
+        align-items: center;
     }
-
 </style>
 
 <div class="calculator">
-    <div class="pantalla">0</div>
+    <div class="pantalla" id="pantalla">0</div>
     <div class="buttons-container">
-        <div class="button" onclick="clearScreen()">AC</div>
-        <div class="button" onclick="appendToScreen('(')">(</div>
-        <div class="button" onclick="appendToScreen(')')">)</div>
+        <div class="button orange" onclick="clearScreen()">AC</div>
+        <div class="button orange" onclick="appendToScreen('(')">(</div>
+        <div class="button orange" onclick="appendToScreen(')')">)</div>
         <div class="button orange" onclick="appendToScreen('/')">/</div>
 
         <div class="button gray" onclick="appendToScreen('7')">7</div>
@@ -67,57 +73,60 @@
 </div>
 
 <script>
-let pantalla = document.querySelector('input[name="mogul"]');
-let currentInput = '';
+    let pantalla = document.getElementById('pantalla');
+    let currentInput = '';
+    let shouldReset = false; // Variable para determinar si se debe restablecer la pantalla
+    let operacionRealizada = false; // Variable para controlar si la operación se ha realizado
 
-function num(value) {
-    currentInput += value;
-    pantalla.value = currentInput;
-}
-
-function borrar() {
-    currentInput = '';
-    pantalla.value = '';
-}
-
-function borrar2() {
-    currentInput = currentInput.slice(0, -1);
-    pantalla.value = currentInput;
-}
-
-function suma() {
-    currentInput += '+';
-    pantalla.value = currentInput;
-}
-
-function rest() {
-    currentInput += '-';
-    pantalla.value = currentInput;
-}
-
-function product() {
-    currentInput += '*';
-    pantalla.value = currentInput;
-}
-
-function dividir() {
-    currentInput += '/';
-    pantalla.value = currentInput;
-}
-
-function coma() {
-    currentInput += '.';
-    pantalla.value = currentInput;
-}
-
-function resultado() {
-    try {
-        currentInput = eval(currentInput);
-        pantalla.value = currentInput;
-    } catch (error) {
-        currentInput = '';
-        pantalla.value = 'Error';
+    function sendOperationToServer(operationData) {
+        fetch('/agregar-operacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(operationData), // Enviar la operación y el resultado
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
     }
-}
 
+    function appendToScreen(value) {
+        if (shouldReset) {
+            shouldReset = false;
+            if (!isNaN(Number(value))) {
+                currentInput = ''; // Borra el resultado previo si se ingresa un número
+            }
+        }
+        currentInput += value;
+        pantalla.innerText = currentInput;
+        operacionRealizada = false; // Restablecer la bandera de operación realizada
+    }
+
+    function clearScreen() {
+        currentInput = '';
+        pantalla.innerText = '0';
+        operacionRealizada = false; 
+    }
+
+    function calculate() {
+        try {
+            if (!operacionRealizada) {
+                let operacion = currentInput; // Guardar la operación antes de evaluarla
+                let result = eval(currentInput);
+                if (!isNaN(result)) {
+                    currentInput = result.toString();
+                    pantalla.innerText = currentInput;
+                    shouldReset = true;
+                    sendOperationToServer({ operacion: operacion, resultado: result }); // Enviar la operación y el resultado al servidor
+                } else {
+                    pantalla.innerText = 'Error';
+                }
+                operacionRealizada = true; // Marcar que la operación se ha realizado
+            }
+        } catch (error) {
+            currentInput = '';
+            pantalla.innerText = 'Error';
+        }
+    }
 </script>

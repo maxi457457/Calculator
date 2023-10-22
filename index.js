@@ -5,7 +5,7 @@ dotenv.config();
 const server = require('http').Server(app);
 const fs = require('fs');
 const { renderPage } = require('./src/helpers/renderView');
-const port = process.env.PORT;
+const port = process.env.PORT || 3000; // Si el puerto no está definido en el archivo .env, usa el puerto 3000
 const dbFile = 'historial.json';
 
 app.use(express.json());
@@ -22,15 +22,16 @@ app.post('/agregar-operacion', (req, res) => {
         const nuevaOperacion = {
             operacion: data.operacion,
             resultado: data.resultado,
+            fecha: new Date() // Agregar la fecha y hora de la operación
         };
 
         fs.readFile(dbFile, 'utf8', (err, fileData) => {
-            if (err) {
-                console.error(err);
-                res.status(500).json({ error: 'Error al leer el archivo JSON' });
-                return;
+            let historial = [];
+
+            if (!err) {
+                historial = JSON.parse(fileData);
             }
-            const historial = JSON.parse(fileData);
+
             historial.push(nuevaOperacion);
 
             fs.writeFile(dbFile, JSON.stringify(historial), (err) => {
@@ -50,5 +51,4 @@ app.post('/agregar-operacion', (req, res) => {
 server.listen(port, () => {
     console.info(`Servidor corriendo en el puerto ${port}`);
 });
-
 
