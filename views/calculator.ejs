@@ -11,7 +11,7 @@
     }
 
     input {
-        width: 50vw;
+        width: 45vw;
         border: 0;
         background-color: black;
         color: white;
@@ -57,7 +57,7 @@
 
     .pantalla {
         text-align: start;
-        width: 45vh;
+        width: 45vw;
         overflow: hidden;
         margin-left: 38vw;
     }
@@ -88,8 +88,8 @@
 
             <div class="botones-fx">
                 <button onclick="clearDisplay()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
+                <button onclick="addToDisplay('(')">(</button>
+                <button onclick="addToDisplay(')')">)</button>
                 <button class="ColorNaranja" onclick="dividir()">/</button>
             </div>
 
@@ -122,19 +122,19 @@
 </div>
 <script>
     let displayValue = '';
-let history = [];
+    let history = [];
 
-function addToDisplay(value) {
-    displayValue += value;
-    document.getElementById('display').value = displayValue;
-}
+    function addToDisplay(value) {
+        displayValue += value;
+        document.getElementById('display').value = displayValue;
+    }
 
-function clearDisplay() {
-    displayValue = '';
-    document.getElementById('display').value = displayValue;
-}
+    function clearDisplay() {
+        displayValue = '';
+        document.getElementById('display').value = displayValue;
+    }
 
-function calculate() {
+    function calculate() {
     try {
         const result = eval(displayValue);
         history.push({ operation: displayValue, result: result });
@@ -147,35 +147,35 @@ function calculate() {
     }
 }
 
-function updateHistory() {
-    const jsonString = JSON.stringify(history);
-  
-    fetch('/update-history', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: jsonString
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Historial actualizado correctamente en el servidor.');
-      } else {
-        console.error('Error al actualizar el historial en el servidor.');
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    });
-  
-    const historyList = document.getElementById('history-list');
-    historyList.innerHTML = '';
-    history.forEach(entry => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `${entry.operation} = ${entry.result}`;
-      historyList.appendChild(listItem);
-    });
-  }
-  
+    function updateHistory() {
+        const jsonString = JSON.stringify(history);
+
+        fetch('/update-history', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: jsonString
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Historial actualizado correctamente en el servidor.');
+                } else {
+                    console.error('Error al actualizar el historial en el servidor.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+        const historyList = document.getElementById('history-list');
+        historyList.innerHTML = '';
+        history.forEach(entry => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `${entry.operation} = ${entry.result}`;
+            historyList.appendChild(listItem);
+        });
+    }
+
 
 </script>
