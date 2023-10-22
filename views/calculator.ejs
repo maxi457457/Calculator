@@ -52,6 +52,7 @@
         margin: 0 auto;
         padding: 20px;
         background-color: black;
+        border-radius: 10px;
     }
 
     .pantalla {
@@ -75,7 +76,7 @@
 
 
 <div class="calculadora">
-    <div class="pantalla" id="Screen">0</div>
+    <div class="pantalla" id="display">0</div>
     <div class="botones">
         <button onclick="clearDisplay()">AC</button>
         <button onclick="addToDisplay('(')">(</button>
@@ -104,66 +105,52 @@
     </div>
 </div>
 <script>
-    let displayValue = '';
-    let history = [];
-    let screen = document.getElementById('Screen');
-    let operacion = false;
-    let reset = false;
+let currentInput = '';
+let calculations = [];
+let screen = document.getElementById('display');
 
-    function updateHistory() {
-        const jsonString = JSON.stringify(history);
+function addToDisplay(value) {
+    currentInput += value;
+    screen.innerText = currentInput
+}
 
-        fetch('/update-history', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: jsonString
-        })
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error(error));
-
+function clearDisplay() {
+        currentInput = '';
+        screen.innerText = '0'; 
     }
 
-
-    function addToDisplay(value) {
-        if (reset) {
-            reset = false;
-            if (!isNaN(Number(value))) {
-                displayValue = '';
-            }
-        }
-        displayValue += value;
-        screen.innerText = displayValue;
-        operacion = false;
+function calculate() {
+    try {
+        const result = eval(currentInput);
+        const calculation = {
+            input: currentInput,
+            result: result
+        };
+        calculations.push(calculation);
+        saveCalculations(calculations);
+        currentInput = '';
+        screen.innerText = result;
+    } catch (error) {
+        currentInput = '';
+        document.getElementById('display').value = 'Error';
     }
+}
 
-    function clearDisplay() {
-        displayValue = '';
-        screen.innerText = '0';
-        operacion = false;
-    }
+function saveCalculations(calculations) {
+    fetch('/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(calculations)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
 
-    function calculate() {
-        try {
-            if (!operacion) {
-                let operacion = displayValue;
-                let result = eval(displayValue);
-                if (!isNaN(result)) {
-                    displayValue = result.toString();
-                    screen.innerText = displayValue;
-                    shouldReset = true;
-                    history.push({ operation: displayValue, result: resultado });
-                    updateHistory();
-                } else {
-                    screen.innerText = 'Error';
-                }
-                operacion = true;
-            }
-        } catch (error) {
-            displayValue = '';
-            screen.innerText = 'Error';
-        }
-    }
 </script>
