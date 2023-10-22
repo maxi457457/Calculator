@@ -1,13 +1,17 @@
 <style>
+    * {
+        background-color: black;
+    }
+
     @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
+        font-family: 'Roboto', sans-serif;
+        src: url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
     }
 
     .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
+        display: grid;
+        place-self: center;
     }
 
     input {
@@ -21,14 +25,16 @@
 
     div {
         display: flex;
+        place-self: center;
     }
 
     button {
         width: 15vh;
         height: 15vh;
-        border-radius: 100%;
+        border-radius: 100px;
         font-size: 3.5em;
-        margin: 0.3%;
+        margin: 2px;
+        border: 0px;
     }
 
     .cero {
@@ -45,44 +51,69 @@
     }
 
     .pantalla-calculadora {
-        background-color: black;
+        background-color: white;
     }
 
     .calculadora {
         font-family: 'Open 24 Display St';
         display: flex;
         flex-direction: column;
-        width: fit-content;
+        width: 100%;
     }
 
     .pantalla {
         text-align: end;
-        width: 45vh;
+        width: 30%;
         overflow: hidden;
-        margin-left: 38vw;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
+        place-items: center;
+        place-self: center;
     }
 
     .ColorGris {
-        background-color: rgb(195, 187, 187);
+        background-color: rgb(59, 59, 59);
+        color: #FFF;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .ColorGris:active{
+        background: rgb(139, 139, 139);
     }
 
     .ColorNaranja {
         background-color: orange;
+        color: white;
+        transition: all .2s ease-in-out;
+    }
+
+    .ColorNaranja:active {
+        background-color: rgb(255, 255, 255);
+        color: orange;
+    }
+
+    .ColorG {
+        background-color: rgb(194, 194, 194);
+        color: black;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .ColorG:active {
+        background-color: rgb(233, 233, 233);
+    }
+
+    #C {
+        display: none;
+    }
+
+    .input {
+        width: 100%;
     }
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
+        <input type="text" class="input" id="display" disabled value="0">
+
 
     </div>
     <div class="containerbtn">
@@ -90,45 +121,103 @@
 
 
             <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
+                <button class="ColorG" id="AC" onclick="borrarDisplay(); Remplazo()">AC</button>
+                <button class="ColorG" id="Parent" onclick="addParentIzq();Remplazo()">(</button>
+                <button class="ColorG" id="Parent" onclick="addParentDer();Remplazo()">)</button>
+                <button class="ColorNaranja" onclick="addToDisplay('/')">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
+                <button class="ColorGris" onclick="addToDisplay('7');Remplazo()">7</button>
+                <button class="ColorGris" onclick="addToDisplay('8');Remplazo()">8</button>
+                <button class="ColorGris" onclick="addToDisplay('9');Remplazo()">9</button>
+                <button class="ColorNaranja" onclick="addToDisplay('*');Remplazo()">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
+                <button class="ColorGris" onclick="addToDisplay('4'); Remplazo()">4</button>
+                <button class="ColorGris" onclick="addToDisplay('5');Remplazo()">5</button>
+                <button class="ColorGris" onclick="addToDisplay('6');Remplazo()">6</button>
+                <button class="ColorNaranja" onclick="addToDisplay('-');Remplazo()">-</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
+                <button class="ColorGris" onclick="addToDisplay('1');Remplazo()">1</button>
+                <button class="ColorGris" onclick="addToDisplay('2');Remplazo()">2</button>
+                <button class="ColorGris" onclick="addToDisplay('3');Remplazo()">3</button>
+                <button class="ColorNaranja" onclick="addToDisplay('+');Remplazo()">+</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+                <button class="ColorGris cero" onclick="addToDisplay('0');Remplazo()">0</button>
+                <button class="ColorGris punto" onclick="addToDisplay('.');Remplazo()">.</button>
+                <button class="ColorNaranja" class="igual" onclick="calcular()">=</button>
             </div>
+            
         </div>
     </div>
 </div>
 
-<script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
 
+<script>
+
+    function Remplazo() {
+        const displayValue = document.getElementById("display");
+        var contenedor = document.getElementById("AC");
+        if (displayValue.value === "0") {
+                contenedor.textContent = "AC";
+            } else {
+                contenedor.textContent = "C";
+            }
+    };
+
+    function addParentIzq() {
+        const Parent = "(";
+        const displayValue = document.getElementById("display");
+        if (displayValue.value === "0" && displayValue !== ".") {
+            display.value = Parent;
+        } else {
+            display.value += Parent;
+        }
+    }
+
+    function addParentDer() {
+        const Parent = ")";
+        display.value += Parent;
+
+    }
+
+    function addToDisplay(value) {
+        const display = document.getElementById("display");
+        const lastChar = display.value.charAt(display.value.length - 1);
+        if ("+-*/.".includes(lastChar) && "+-*/.".includes(value)) {
+            return;
+        }
+    
+        if (display.value === "0" && value !== ".") {
+            display.value = value;
+        } else {
+            display.value += value;
+        }
+    }
+    
+
+    function DelDisplay() {
+        const display = document.getElementById("display");
+        alert("A");
+    }
+
+    function calcular() {
+        const Hist = document.getElementById("display").value;
+        alert(Hist);
+        try {
+            let expression = document.getElementById("display").value;
+            let result = eval(expression);
+            document.getElementById("display").value = result;
+        } catch (error) {
+            document.getElementById("display").value = "Error";
+        }
+    }
+
+    function borrarDisplay() {
+        document.getElementById("display").value = "0";
     }
 </script>
