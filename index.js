@@ -5,7 +5,7 @@ dotenv.config();
 const server = require('http').Server(app);
 const fs = require('fs');
 const { renderPage } = require('./src/helpers/renderView');
-const port = process.env.PORT || 3000; // Si el puerto no está definido en el archivo .env, usa el puerto 3000
+const port = process.env.PORT || 3000;
 const dbFile = 'historial.json';
 
 app.use(express.json());
@@ -22,19 +22,31 @@ app.post('/agregar-operacion', (req, res) => {
         const nuevaOperacion = {
             operacion: data.operacion,
             resultado: data.resultado,
-            fecha: new Date() // Agregar la fecha y hora de la operación
+            fecha: new Date() 
         };
 
-        fs.readFile(dbFile, 'utf8', (err, fileData) => {
-            let historial = [];
-
-            if (!err) {
-                historial = JSON.parse(fileData);
+        fs.readFile("historial.json", 'utf8', (err, fileData) => {
+            if (err) {
+                console.error(err);
+                res.status(500).json({ error: 'Error al leer el archivo JSON' });
+                return;
             }
-
+        
+            let historial = [];
+        
+            if (fileData) {
+                try {
+                    historial = JSON.parse(fileData);
+                } catch (parseError) {
+                    console.error(parseError);
+                    res.status(500).json({ error: 'Error al parsear el archivo JSON' });
+                    return;
+                }
+            }
+        
             historial.push(nuevaOperacion);
-
-            fs.writeFile(dbFile, JSON.stringify(historial), (err) => {
+        
+            fs.writeFile("historial.json", JSON.stringify(historial), (err) => {
                 if (err) {
                     console.error(err);
                     res.status(500).json({ error: 'Error al escribir en el archivo JSON' });
