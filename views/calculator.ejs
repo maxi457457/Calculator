@@ -1,134 +1,123 @@
 <style>
     @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
+        font-family: "Custom Font";
+        src: url('./../assets/font/Custom-Font.ttf');
     }
 
-    .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
-    }
-
-    input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
-    }
-
-    div {
+    .buttons-container {
         display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 400px;
     }
 
-    button {
-        width: 15vh;
-        height: 15vh;
-        border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
-    }
-
-    .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
-
+    .button {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        font-size: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: yellow;
     }
 
     .pantalla {
-        background-color: black;
+        width: 300px;
+        height: 80px;
+        border: 1px solid black;
+        border-radius: 5px;
+        text-align: right;
+        padding: 10px;
+        font-size: 1.5em;
+        margin-bottom: 10px;
     }
 
-    .pantalla-calculadora {
-        background-color: black;
-    }
-
-    .calculadora {
-        font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
-    }
-
-    .pantalla {
-        text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
-    }
-
-    .ColorGris {
-        background-color: rgb(195, 187, 187);
-    }
-
-    .ColorNaranja {
-        background-color: orange;
-    }
 </style>
 
+<div class="calculator">
+    <div class="pantalla">0</div>
+    <div class="buttons-container">
+        <div class="button" onclick="clearScreen()">AC</div>
+        <div class="button" onclick="appendToScreen('(')">(</div>
+        <div class="button" onclick="appendToScreen(')')">)</div>
+        <div class="button orange" onclick="appendToScreen('/')">/</div>
 
-<div class="calculadora">
-    <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
+        <div class="button gray" onclick="appendToScreen('7')">7</div>
+        <div class="button gray" onclick="appendToScreen('8')">8</div>
+        <div class="button gray" onclick="appendToScreen('9')">9</div>
+        <div class="button orange" onclick="appendToScreen('*')">x</div>
 
-    </div>
-    <div class="containerbtn">
-        <div class="botones">
+        <div class="button gray" onclick="appendToScreen('4')">4</div>
+        <div class="button gray" onclick="appendToScreen('5')">5</div>
+        <div class="button gray" onclick="appendToScreen('6')">6</div>
+        <div class="button orange" onclick="appendToScreen('-')">-</div>
 
+        <div class="button gray" onclick="appendToScreen('1')">1</div>
+        <div class="button gray" onclick="appendToScreen('2')">2</div>
+        <div class="button gray" onclick="appendToScreen('3')">3</div>
+        <div class="button orange" onclick="appendToScreen('+')">+</div>
 
-            <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
-            </div>
-        </div>
+        <div class="button gray zero" onclick="appendToScreen('0')">0</div>
+        <div class="button gray" onclick="appendToScreen('.')">.</div>
+        <div class="button orange" onclick="calculate()">=</div>
     </div>
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+let pantalla = document.querySelector('input[name="mogul"]');
+let currentInput = '';
 
+function num(value) {
+    currentInput += value;
+    pantalla.value = currentInput;
+}
+
+function borrar() {
+    currentInput = '';
+    pantalla.value = '';
+}
+
+function borrar2() {
+    currentInput = currentInput.slice(0, -1);
+    pantalla.value = currentInput;
+}
+
+function suma() {
+    currentInput += '+';
+    pantalla.value = currentInput;
+}
+
+function rest() {
+    currentInput += '-';
+    pantalla.value = currentInput;
+}
+
+function product() {
+    currentInput += '*';
+    pantalla.value = currentInput;
+}
+
+function dividir() {
+    currentInput += '/';
+    pantalla.value = currentInput;
+}
+
+function coma() {
+    currentInput += '.';
+    pantalla.value = currentInput;
+}
+
+function resultado() {
+    try {
+        currentInput = eval(currentInput);
+        pantalla.value = currentInput;
+    } catch (error) {
+        currentInput = '';
+        pantalla.value = 'Error';
     }
+}
+
 </script>
