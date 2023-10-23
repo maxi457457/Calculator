@@ -4,61 +4,14 @@
         src: url('./../assets/font/Open-24-Display-St.ttf');
     }
 
-    .calculadora {
-        font-family: 'Open 24 Display St';
-        max-width: 400px;
-        height: 100%;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: black;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .historial {
-        max-height: 150px;
-        overflow-y: auto;
-        padding: 10px;
-        background-color: #333;
-        color: white;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        display: none; /* Ocultar inicialmente el historial */
-    }
-
-    .historial-item {
-        margin-bottom: 5px;
-    }
-
-    .pantalla {
-        background-color: #0000;
-        color: white;
-        border-radius: 5px;
-        padding: 10px;
-        text-align: right;
-        font-size: 32px;
-        margin-bottom: 10px;
-    }
-
     .botones {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-gap: 10px;
-    }
-
-    .toggle-historial {
-        background-color: #f0f0f0;
-        border-radius: 5px;
-        color: black;
-        cursor: pointer;
-        padding: 10px;
-        text-align: center;
-        margin-bottom: 10px;
+        display: block;
+        width: 100vw;
+        padding-left: 38vw;
     }
 
     input {
-        width: 45vw;
+        width: 50vw;
         border: 0;
         background-color: black;
         color: white;
@@ -66,15 +19,52 @@
         text-align: end;
     }
 
-    button {
+    div {
         display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #f0f0f0;
+    }
+
+    button {
+        width: 15vh;
+        height: 15vh;
         border-radius: 100%;
-        width: 90px;
-        height: 90px;
-        cursor: pointer;
+        font-size: 3.5em;
+        margin: 0.3%;
+    }
+
+    .cero {
+        width: 30vh;
+        border-radius: 50vh;
+        text-align: left;
+        padding-left: 35px;
+        padding-right: 100px;
+
+    }
+
+    .pantalla {
+        background-color: black;
+    }
+
+    .pantalla-calculadora {
+        background-color: black;
+    }
+
+    .calculadora {
+        font-family: 'Open 24 Display St';
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    }
+
+    .pantalla {
+        text-align: end;
+        width: 45vh;
+        overflow: hidden;
+        margin-left: 38vw;
+    }
+
+    .pantalla-botones {
+        display: flex;
+
     }
 
     .ColorGris {
@@ -84,104 +74,61 @@
     .ColorNaranja {
         background-color: orange;
     }
-
-    .cero {
-        width: 100%;
-        border-radius: 10vh;
-        grid-column: span 2;
-        justify-content: center;
-    }
 </style>
-</head>
-<body>
+
 
 <div class="calculadora">
-<div class="toggle-historial" onclick="toggleHistorial()">Mostrar Historial</div>
-<div class="historial" id="historial">
-    <!-- Historial de cálculos -->
-</div>
-<div class="pantalla" id="display">0</div>
-<div class="botones">
-    <button onclick="clearDisplay()">AC</button>
-    <button onclick="addToDisplay('(')">(</button>
-    <button onclick="addToDisplay(')')">)</button>
-    <button class="ColorNaranja" onclick="addToDisplay('/')">/</button>
+    <div class="pantalla">
+        <input type="" name="mogul">
+        <div class="pantalla-botones">
+            <button onclick="borrar2()">X</button>
+        </div>
 
-    <button class="ColorGris" onclick="addToDisplay('7')">7</button>
-    <button class="ColorGris" onclick="addToDisplay('8')">8</button>
-    <button class="ColorGris" onclick="addToDisplay('9')">9</button>
-    <button class="ColorNaranja" onclick="addToDisplay('*')">x</button>
+    </div>
+    <div class="containerbtn">
+        <div class="botones">
 
-    <button class="ColorGris" onclick="addToDisplay('4')">4</button>
-    <button class="ColorGris" onclick="addToDisplay('5')">5</button>
-    <button class="ColorGris" onclick="addToDisplay('6')">6</button>
-    <button class="ColorNaranja" onclick="addToDisplay('-')">-</button>
 
-    <button class="ColorGris" onclick="addToDisplay('1')">1</button>
-    <button class="ColorGris" onclick="addToDisplay('2')">2</button>
-    <button class="ColorGris" onclick="addToDisplay('3')">3</button>
-    <button class="ColorNaranja" onclick="addToDisplay('+')">+</button>
+            <div class="botones-fx">
+                <button onclick="borrar()">AC</button>
+                <button onclick="">(</button>
+                <button onclick="">)</button>
+                <button class="ColorNaranja" onclick="dividir()">/</button>
+            </div>
 
-    <button class="ColorGris cero" onclick="addToDisplay('0')">0</button>
-    <button class="ColorGris punto" onclick="addToDisplay('.')">.</button>
-    <button class="ColorNaranja" onclick="calculate()">=</button>
-</div>
+            <div class="botones-num">
+                <button class="ColorGris" onclick="num(7)">7</button>
+                <button class="ColorGris" onclick="num(8)">8</button>
+                <button class="ColorGris" onclick="num(9)">9</button>
+                <button class="ColorNaranja" onclick="product()">x</button>
+            </div>
+
+            <div class="botones-num">
+                <button class="ColorGris" onclick="num(4)">4</button>
+                <button class="ColorGris" onclick="num(5)">5</button>
+                <button class="ColorGris" onclick="num(6)">6</button>
+                <button class="ColorNaranja" onclick="rest()">-</button>
+            </div>
+            <div class="botones-num">
+                <button class="ColorGris" onclick="num(1)">1</button>
+                <button class="ColorGris" onclick="num(2)">2</button>
+                <button class="ColorGris" onclick="num(3)">3</button>
+                <button class="ColorNaranja" onclick="suma()">+</button>
+            </div>
+            <div class="botones-num">
+                <button class="ColorGris cero" onclick="num(0)">0</button>
+                <button class="ColorGris punto" onclick="coma()">.</button>
+                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-let currentInput = '';
-let calculations = [];
-let screen = document.getElementById('display');
-let historialContainer = document.getElementById('historial');
+    function borrar() {
+        alert("ola")
+    }
+    function num(num) {
 
-function addToDisplay(value) {
-currentInput += value;
-screen.innerText = currentInput;
-}
-
-function clearDisplay() {
-currentInput = '';
-screen.innerText = '0';
-}
-
-function calculate() {
-try {
-    const result = eval(currentInput);
-    const calculation = {
-        input: currentInput,
-        result: result
-    };
-    calculations.push(calculation);
-    saveCalculations(calculations);
-    updateHistorial(calculations);
-    currentInput = '';
-    screen.innerText = result;
-} catch (error) {
-    currentInput = '';
-    screen.value = 'Error';
-}
-}
-
-function saveCalculations(calculations) {
-// Tu código de guardado aquí...
-}
-
-function updateHistorial(calculations) {
-historialContainer.innerHTML = '';
-
-calculations.forEach(calculation => {
-    const historialItem = document.createElement('div');
-    historialItem.classList.add('historial-item');
-    historialItem.innerText = `${calculation.input} = ${calculation.result}`;
-    historialContainer.appendChild(historialItem);
-});
-}
-
-function toggleHistorial() {
-// Cambiar la visibilidad del historial
-historialContainer.style.display = historialContainer.style.display === 'none' ? 'block' : 'none';
-}
+    }
 </script>
-
-</body>
-</html>
