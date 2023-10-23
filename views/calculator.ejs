@@ -10,6 +10,7 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
+        background-color: black;
     }
 
     .buttons-container {
@@ -54,16 +55,23 @@
         font-size: 1.5em;
         margin-bottom: 10px;
         align-items: center;
+        background-color: white;
     }
+
+    .greyclaro{
+        background-color: gainsboro;
+    }
+
+
 </style>
 
 
 <div class="calculator">
     <div class="pantalla">0</div>
     <div class="buttons-container">
-        <div class="button orange" onclick="clearScreen()">AC</div>
-        <div class="button orange" onclick="appendToScreen('(')">(</div>
-        <div class="button orange" onclick="appendToScreen(')')">)</div>
+        <div class="button greyclaro" onclick="clearScreen()">AC</div>
+        <div class="button greyclaro" onclick="appendToScreen('(')">(</div>
+        <div class="button greyclaro" onclick="appendToScreen(')')">)</div>
         <div class="button orange" onclick="appendToScreen('/')">/</div>
 
         <div class="button gray" onclick="appendToScreen('7')">7</div>
@@ -88,10 +96,11 @@
 </div>
 
 <script>
-    let pantalla = document.getElementById('pantalla');
+    let pantalla = document.querySelector('.pantalla'); // Use class selector instead of ID selector
     let currentInput = '';
-    let shouldReset = false; // Variable para determinar si se debe restablecer la pantalla
-    let operacionRealizada = false; // Variable para controlar si la operación se ha realizado
+    let shouldReset = false;
+    let operacionRealizada = false;
+// Rest of your code remains unchanged...
 
     function sendOperationToServer(operationData) {
         fetch('/agregar-operacion', {
@@ -127,8 +136,8 @@
     function calculate() {
         try {
             if (!operacionRealizada) {
-                let operacion = currentInput; // Guardar la operación antes de evaluarla
-                let result = eval(currentInput);
+             let operacion = currentInput; // Guardar la operación antes de evaluarla
+             let result = eval(currentInput);
                 if (!isNaN(result)) {
                     currentInput = result.toString();
                     pantalla.innerText = currentInput;
