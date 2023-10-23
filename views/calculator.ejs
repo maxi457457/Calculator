@@ -107,14 +107,30 @@
     .input {
         width: 100%;
     }
+
+    .historial-content{
+        position: absolute;
+        left: 300px;
+        margin-top: 10px
+    }
+
+    .historial{
+        height: 50px;
+    }
+
+    .historial button{
+        height: 50px;
+    }
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
         <input type="text" class="input" id="display" disabled value="0">
-
-
+    </div>
+    <div class="historial">
+        <button style="color:#FFF; font-size: 30px; " onclick="mostrarHistorial()">HISTORIAL</button>
+        <div class="historial-content" id="historial-content" style="color: #FFF;"></div>
     </div>
     <div class="containerbtn">
         <div class="botones">
@@ -158,6 +174,36 @@
 
 
 <script>
+function mostrarHistorial() {
+    const historialContent = document.getElementById('historial-content');
+
+    if (historialContent.style.display === 'none' || historialContent.innerHTML.trim() === '') {
+        // El historial está oculto o vacío, mostrarlo
+        fetch('/mostrarHistorial')
+            .then(response => response.json())
+            .then(data => {
+                if (data.historial && data.historial.length > 0) {
+                    historialContent.innerHTML = ''; // Limpiar el contenido anterior del historial
+                    data.historial.forEach(item => {
+                        const cuenta = item.cuenta;
+                        const resultado = item.resultado;
+                        historialContent.innerHTML += `${cuenta} = ${resultado}<br>`;
+                    });
+                } else {
+                    historialContent.innerHTML = 'El historial está vacío.';
+                }
+            })
+            .catch(error => {
+                console.error('Error al cargar el historial:', error);
+            });
+        historialContent.style.display = 'block'; // Mostrar el historial
+    } else {
+        // El historial está visible, ocultarlo
+        historialContent.innerHTML = ''; // Limpiar el contenido del historial
+        historialContent.style.display = 'none'; // Ocultar el historial
+    }
+}
+
 
     function Remplazo() {
         const displayValue = document.getElementById("display");
@@ -202,19 +248,39 @@
 
     function DelDisplay() {
         const display = document.getElementById("display");
-        alert("A");
     }
 
     function calcular() {
-        const Hist = document.getElementById("display").value;
-        alert(Hist);
+        const display = document.getElementById("display");
         try {
-            let expression = document.getElementById("display").value;
-            let result = eval(expression);
-            document.getElementById("display").value = result;
-        } catch (error) {
-            document.getElementById("display").value = "Error";
+            let cuenta = display.value;
+            let resultado = eval(display.value);
+            display.value = resultado;
+            let registro = {
+            cuenta: cuenta,
+            resultado: resultado
+            };
+
+            fetch('/HistorialAdd', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            
+            body: JSON.stringify(registro)
+            })
+            .then(response => response.json())
+            .then(data => {
+            historialDer.innerHTML = '0'; // Borra el contenido anterior del historial;
+            })
+            .catch(error => {
+            console.error('Error:', error);
+            });
+        } catch {
+            display.value = 'ERROR';
+            DelDisplay();
         }
+
     }
 
     function borrarDisplay() {
