@@ -9,21 +9,21 @@
     }
 
     .botones {
-        display: block;
+        display: grid;
         width: 100%;
         padding-left: 34vw;
     }
 
     .pantalla {
-        width: 55vw;
+        width: 40vw;
         border: 0;
         background-color: black;
         color: white;
         font-size: 12vh;
         text-align: right;
         overflow: hidden;
-        margin-left: 8vw;
-        height: 25vh;
+        margin-left: 30vw;
+        height: 14vh;
     }
 
     button {
@@ -48,9 +48,13 @@
         background-color: rgb(35, 35, 35);
     }
 
+    .result{
+        overflow: hidden;
+    }
+
     .calculadora {
         font-family: 'Open 24 Display St';
-        display: flex;
+        display: block;
         flex-direction: column;
         width: fit-content;
     }
@@ -82,7 +86,6 @@
 <div class="calculadora">
     <div class="pantalla">
         <div class="result" id="result">
-        <div class="valor-anterior">321</div>
         <div class="valor-actual">0</div>
         </div>
     </div>
@@ -91,70 +94,81 @@
 
 
             <div class="botones-fx">
-                <button class="ColorGris">AC</button>
-                <button class="ColorGris">(</button>
-                <button class="ColorGris">)</button>
-                <button class="ColorNaranja operador">/</button>
+                <button class="ColorGris btn" id="AC">AC</button>
+                <button class="ColorGris btn">(</button>
+                <button class="ColorGris btn">)</button>
+                <button class="ColorNaranja btn">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris2 numero">7</button>
-                <button class="ColorGris2 numero">8</button>
-                <button class="ColorGris2 numero">9</button>
-                <button class="ColorNaranja operador">x</button>
+                <button class="ColorGris2 btn">7</button>
+                <button class="ColorGris2 btn">8</button>
+                <button class="ColorGris2 btn">9</button>
+                <button class="ColorNaranja btn" id="X">*</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris2 numero">4</button>
-                <button class="ColorGris2 numero">5</button>
-                <button class="ColorGris2 numero">6</button>
-                <button class="ColorNaranja operador">-</button>
+                <button class="ColorGris2 btn">4</button>
+                <button class="ColorGris2 btn">5</button>
+                <button class="ColorGris2 btn">6</button>
+                <button class="ColorNaranja btn">-</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris2 numero">1</button>
-                <button class="ColorGris2 numero">2</button>
-                <button class="ColorGris2 numero">3</button>
-                <button class="ColorNaranja operador">+</button>
+                <button class="ColorGris2 btn">1</button>
+                <button class="ColorGris2 btn">2</button>
+                <button class="ColorGris2 btn">3</button>
+                <button class="ColorNaranja btn">+</button>
             </div>
             
             <div class="botones-num">
-                <button class="ColorGris2 cero numero">0</button>
-                <button class="ColorGris2 numero">.</button>
-                <button class="ColorNaranja operador">=</button>
+                <button class="ColorGris2 btn">0</button>
+                <button class="ColorGris2 btn">.</button>
+                <button class="ColorNaranja btn" id="Hist">H</button>
+                <button class="ColorNaranja btn" id="igual">=</button>
             </div>
 
         </div>
+        <div class="nya"><div class="historialuso" id="historialuso" style="color: #fff;"></div></div>
     </div>
 </div>
 
 <script>
 
-    const displayValorAnterior = document.getElementById('valor-anterior');
-    const displayValorActual = document.getElementById('valor-actual');
-    const botonesNumeros = document.querySelectorAll ('.numero');
-    const botonesOperadores = document.querySelectorAll ('.operador');
+    const pantalla = document.querySelector(".valor-actual");
+    const botones = document.querySelectorAll(".btn");
 
-    class Calculadora{
-        sumar(num1, num2) {
-            return num1 + num2;
+    botones.forEach(boton => {
+    boton.addEventListener("click", () => {
+        const botonApretado = boton.textContent;
+        
+        if (boton.id === "Hist"){
+            pantalla.textContent = pantalla.textContent.slice(0, -1);
+            pantalla.textContent = "0";
+            return;
         }
 
-        restar(num1, num2) {
-            return num1 - num2;
+        if (boton.id === "AC") {
+            pantalla.textContent = "0";
+            return;
         }
 
-        dividir(num1, num2) {
-            return num1 / num2;
+        if (boton.id === "igual") {
+            try {
+                pantalla.textContent = eval(pantalla.textContent);
+            } catch {
+                pantalla.textContent = "Error!";
+            }
+            return;
         }
 
-        multiplicar(num1, num2) {
-            return num1 * num2;
+        if (pantalla.textContent === "0" || pantalla.textContent === "Error!") {
+            pantalla.textContent = botonApretado;
+        } else {
+            pantalla.textContent += botonApretado;
         }
-    }
-
-    const calculadora = new Calculadora();
+    })
+})
 
 </script>
 
-<!-- Video a ver para calculadora https://www.youtube.com/watch?v=7YDagj3cVAk -->
