@@ -82,5 +82,41 @@
   {
     "operacion": "887745*9",
     "resultado": 7989705
+  },
+  {
+    "operacion": "9893",
+    "resultado": 9893
+  },
+  {
+    "operacion": "89*3",
+    "resultado": 267
+  },
+  {
+    "operacion": "67*3",
+    "resultado": 201
+  },
+  {
+    "operacion": "201-12",
+    "resultado": 189
+  },
+  {
+    "operacion": "86*(89)",
+    "resultado": 7654
+  },
+  {
+    "operacion": "65",
+    "resultado": 65
+  },
+  {
+    "operacion": "8*3",
+    "resultado": 24
+  },
+  {
+    "operacion": "24",
+    "resultado": 24
+  },
+  {
+    "operacion": "24",
+    "resultado": 24
   }
 ]

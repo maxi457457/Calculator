@@ -5,7 +5,6 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const fs = require('fs')
-// const cors = require('cors');
 const dbFile = 'historial.json';
 
 const { renderView } = require('./src/helpers/renderView');
@@ -22,29 +21,23 @@ app.get('/', (req, res) => {
 });
 
 // Ruta para agregar una operación al historial
-// Handles the POST request to '/agregar-operacion' route. 
-// Stores the data sent in a JSON file. If the file exists, appends the data to the end of the file. If the file does not exist, creates it.
 
 app.post('/agregar-operacion', (req, res) => {
     const data = req.body;
-    console.log(data);
 
-    // Check if the request contains an 'operacion' and 'resultado' field
     if (data.hasOwnProperty('operacion') && data.hasOwnProperty('resultado')) {
         const nuevaOperacion = {
             operacion: data.operacion,
             resultado: data.resultado,
         };
 
-        // Read the existing JSON file, if it exists
         fs.readFile(dbFile, 'utf8', (err, fileData) => {
             if (err) {
                 if (err.code === 'ENOENT') {
-                    // File does not exist, create a new array with the data
+                    // Si el archivo no existe
                     const jsonData = [nuevaOperacion];
                     const jsonString = JSON.stringify(jsonData, null, 2);
 
-                    // Write the JSON data to the file
                     fs.writeFile(dbFile, jsonString, (err) => {
                         if (err) {
                             console.error(err);
@@ -58,7 +51,7 @@ app.post('/agregar-operacion', (req, res) => {
                     res.status(500).json({ error: 'Error al leer el archivo.' });
                 }
             } else {
-                // File exists, parse the existing JSON data
+                // Si el archivo existe
                 let jsonData = [];
 
                 try {
@@ -69,7 +62,6 @@ app.post('/agregar-operacion', (req, res) => {
                 jsonData.push(nuevaOperacion);
                 const jsonString = JSON.stringify(jsonData, null, 2);
 
-                // Write the updated JSON data to the file
                 fs.writeFile(dbFile, jsonString, (err) => {
                     if (err) {
                         console.error(err);
@@ -84,6 +76,19 @@ app.post('/agregar-operacion', (req, res) => {
         res.status(400).json({ error: 'Solicitud incorrecta, se requieren campos "operacion" y "resultado" en el cuerpo.' });
     }
 });
+
+app.get('/historial', (req, res) => {
+    fs.readFile(dbFile, 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Error al leer el archivo.' });
+        } else {
+            const jsonData = JSON.parse(data);
+            console.log(jsonData)
+            res.status(200).json(jsonData);
+        }
+    });
+})
 
 // Encendemos el servidor
 server.listen(process.env.PORT || 3000, () => {
