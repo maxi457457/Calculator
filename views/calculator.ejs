@@ -4,14 +4,14 @@
     }
 
     @font-face {
-        font-family: "Open 24 Display St";
+        font-family: 'Open 24 Display St';
         src: url('./../assets/font/Open-24-Display-St.ttf');
     }
 
     .botones {
         display: block;
-        width: 100vw;
-        padding-left: 38vw;
+        width: 100%;
+        padding-left: 34vw;
     }
 
     .pantalla {
@@ -19,14 +19,11 @@
         border: 0;
         background-color: black;
         color: white;
-        font-size: 15vh;
+        font-size: 12vh;
         text-align: right;
         overflow: hidden;
-        margin-left: 38vw;
-    }
-
-    div {
-        display: flex;
+        margin-left: 8vw;
+        height: 25vh;
     }
 
     button {
@@ -84,69 +81,80 @@
 
 <div class="calculadora">
     <div class="pantalla">
-        <div class="result" id="result">0</div>
+        <div class="result" id="result">
+        <div class="valor-anterior">321</div>
+        <div class="valor-actual">0</div>
+        </div>
     </div>
     <div class="containerbtn">
         <div class="botones">
 
 
             <div class="botones-fx">
-                <button class="ColorGris" onclick="borrar()">AC</button>
-                <button class="ColorGris" onclick="">(</button>
-                <button class="ColorGris" onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
+                <button class="ColorGris">AC</button>
+                <button class="ColorGris">(</button>
+                <button class="ColorGris">)</button>
+                <button class="ColorNaranja operador">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris2" onclick="num(7)">7</button>
-                <button class="ColorGris2" onclick="num(8)">8</button>
-                <button class="ColorGris2" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
+                <button class="ColorGris2 numero">7</button>
+                <button class="ColorGris2 numero">8</button>
+                <button class="ColorGris2 numero">9</button>
+                <button class="ColorNaranja operador">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris2" onclick="num(4)">4</button>
-                <button class="ColorGris2" onclick="num(5)">5</button>
-                <button class="ColorGris2" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
+                <button class="ColorGris2 numero">4</button>
+                <button class="ColorGris2 numero">5</button>
+                <button class="ColorGris2 numero">6</button>
+                <button class="ColorNaranja operador">-</button>
             </div>
+
             <div class="botones-num">
-                <button class="ColorGris2" onclick="num(1)">1</button>
-                <button class="ColorGris2" onclick="num(2)">2</button>
-                <button class="ColorGris2" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
+                <button class="ColorGris2 numero">1</button>
+                <button class="ColorGris2 numero">2</button>
+                <button class="ColorGris2 numero">3</button>
+                <button class="ColorNaranja operador">+</button>
             </div>
+            
             <div class="botones-num">
-                <button class="ColorGris2 cero" onclick="num(0)">0</button>
-                <button class="ColorGris2 punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+                <button class="ColorGris2 cero numero">0</button>
+                <button class="ColorGris2 numero">.</button>
+                <button class="ColorNaranja operador">=</button>
             </div>
+
         </div>
     </div>
 </div>
 
 <script>
-    let resultElement = document.getElementById("result");
-    let currentResult = "";
 
-    function appendToResult(value) {
-      currentResult += value;
-      resultElement.textContent = currentResult;
+    const displayValorAnterior = document.getElementById('valor-anterior');
+    const displayValorActual = document.getElementById('valor-actual');
+    const botonesNumeros = document.querySelectorAll ('.numero');
+    const botonesOperadores = document.querySelectorAll ('.operador');
+
+    class Calculadora{
+        sumar(num1, num2) {
+            return num1 + num2;
+        }
+
+        restar(num1, num2) {
+            return num1 - num2;
+        }
+
+        dividir(num1, num2) {
+            return num1 / num2;
+        }
+
+        multiplicar(num1, num2) {
+            return num1 * num2;
+        }
     }
 
-    function clearResult() {
-      currentResult = "";
-      resultElement.textContent = "0";
-    }
+    const calculadora = new Calculadora();
 
-    function calculateResult() {
-      try {
-        currentResult = eval(currentResult);
-        resultElement.textContent = currentResult;
-      } catch (error) {
-        resultElement.textContent = "Error";
-      }
-    }
 </script>
 
 <!-- Video a ver para calculadora https://www.youtube.com/watch?v=7YDagj3cVAk -->
