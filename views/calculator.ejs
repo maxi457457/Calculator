@@ -1,4 +1,8 @@
 <style>
+    *{
+        background-color: black; 
+    }
+
     @font-face {
         font-family: "Open 24 Display St";
         src: url('./../assets/font/Open-24-Display-St.ttf');
@@ -10,13 +14,15 @@
         padding-left: 38vw;
     }
 
-    input {
-        width: 50vw;
+    .pantalla {
+        width: 55vw;
         border: 0;
         background-color: black;
         color: white;
         font-size: 15vh;
-        text-align: end;
+        text-align: right;
+        overflow: hidden;
+        margin-left: 38vw;
     }
 
     div {
@@ -24,11 +30,12 @@
     }
 
     button {
-        width: 15vh;
-        height: 15vh;
+        width: 14vh;
+        height: 14vh;
         border-radius: 100%;
-        font-size: 3.5em;
+        font-size: 5vh;
         margin: 0.3%;
+        border: 0;
     }
 
     .cero {
@@ -40,12 +47,8 @@
 
     }
 
-    .pantalla {
-        background-color: black;
-    }
-
     .pantalla-calculadora {
-        background-color: black;
+        background-color: rgb(35, 35, 35);
     }
 
     .calculadora {
@@ -55,33 +58,35 @@
         width: fit-content;
     }
 
-    .pantalla {
-        text-align: end;
-        width: 45vh;
+    /* .pantalla {
+        text-align: right;
+        width: 60vh;
         overflow: hidden;
         margin-left: 38vw;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
-    }
+    } */
 
     .ColorGris {
         background-color: rgb(195, 187, 187);
     }
 
-    .ColorNaranja {
-        background-color: orange;
+    .ColorGris2 {
+        background-color: rgb(58, 58, 58);
+        color: aliceblue;
     }
+
+    .ColorNaranja {
+        background-color: rgb(255, 128, 0);
+        color: aliceblue;
+    }
+    
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
-        <input type="" name="mogul">
+        <div class="result" id="result">0</div>
         <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
+            <!-- <button id="borrar" onclick="borrar2()">X</button> -->
         </div>
 
     </div>
@@ -90,34 +95,34 @@
 
 
             <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
+                <button class="ColorGris" onclick="borrar()">AC</button>
+                <button class="ColorGris" onclick="">(</button>
+                <button class="ColorGris" onclick="">)</button>
                 <button class="ColorNaranja" onclick="dividir()">/</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
+                <button class="ColorGris2" onclick="num(7)">7</button>
+                <button class="ColorGris2" onclick="num(8)">8</button>
+                <button class="ColorGris2" onclick="num(9)">9</button>
                 <button class="ColorNaranja" onclick="product()">x</button>
             </div>
 
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
+                <button class="ColorGris2" onclick="num(4)">4</button>
+                <button class="ColorGris2" onclick="num(5)">5</button>
+                <button class="ColorGris2" onclick="num(6)">6</button>
                 <button class="ColorNaranja" onclick="rest()">-</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
+                <button class="ColorGris2" onclick="num(1)">1</button>
+                <button class="ColorGris2" onclick="num(2)">2</button>
+                <button class="ColorGris2" onclick="num(3)">3</button>
                 <button class="ColorNaranja" onclick="suma()">+</button>
             </div>
             <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
+                <button class="ColorGris2 cero" onclick="num(0)">0</button>
+                <button class="ColorGris2 punto" onclick="coma()">.</button>
                 <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
             </div>
         </div>
@@ -125,10 +130,25 @@
 </div>
 
 <script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+    let resultElement = document.getElementById("result");
+    let currentResult = "";
 
+    function appendToResult(value) {
+      currentResult += value;
+      resultElement.textContent = currentResult;
+    }
+
+    function clearResult() {
+      currentResult = "";
+      resultElement.textContent = "0";
+    }
+
+    function calculateResult() {
+      try {
+        currentResult = eval(currentResult);
+        resultElement.textContent = currentResult;
+      } catch (error) {
+        resultElement.textContent = "Error";
+      }
     }
 </script>
