@@ -14,6 +14,7 @@
         place-self: center;
         width: 100%;
         justify-content: space-around;
+        justify-items: center;
     }
 
     .input {
@@ -35,12 +36,16 @@
         margin: 2px;
     }
 
-    @media screen and (min-width: 992px){
+    .ColorGris:active {
+        background-color: rgb(99, 99, 99);
+    }
 
-        .ColorGris:hover {
-            background-color: rgb(99, 99, 99);
-        }
+    .ColorNaranja:active{
+        background-color: rgb(255, 255, 255);
+    }
 
+    .ColorG:active{
+        background-color: rgb(235, 234, 234);
     }
 
     .cero {
@@ -116,7 +121,23 @@
             padding-bottom: 10%;
             padding-top: 10%;
         }
+    
     }
+
+   .caca{
+        display: flex;
+        width: 40%;
+        justify-content: flex-end;
+    }
+
+    .historial-content{
+        font-size: 5vh;
+        font-family: 'Roboto';
+        text-align: end;
+    }
+
+    
+
 </style>
 
 
@@ -125,20 +146,20 @@
         <div class="botones">
             <div class="pantalla">
                     <h2 class="input" id="display">0</h2>
-            </div>
-                    
-                    <div class="botones-fx">
-                        <button class="ColorG" id="AC" onclick="DisplayClean(); Remplazo()">AC</button>
-                        <button class="ColorG" onclick="DisplayAdd('('); Remplazo()">(</button>
-                        <button class="ColorG" onclick="DisplayAdd(')'); Remplazo()">)</button>
-                        <button class="ColorNaranja" onclick="DisplayAdd('/'); Remplazo()">/</button>
-                    </div>
-                    <div class="botones-num">
-                        <button class="ColorGris" onclick="DisplayAdd(7); Remplazo()">7</button>
-                        <button class="ColorGris" onclick="DisplayAdd(8); Remplazo()">8</button>
-                        <button class="ColorGris" onclick="DisplayAdd(9); Remplazo()">9</button>
-                        <button class="ColorNaranja" onclick="DisplayAdd('*'); Remplazo()">x</button>
-                    </div>
+                </div>
+                
+                <div class="botones-fx">
+                    <button class="ColorG" id="AC" onclick="DisplayClean(); Remplazo()">AC</button>
+                    <button class="ColorG" onclick="DisplayAdd('('); Remplazo()">(</button>
+                    <button class="ColorG" onclick="DisplayAdd(')'); Remplazo()">)</button>
+                    <button class="ColorNaranja" onclick="DisplayAdd('/'); Remplazo()">/</button>
+                </div>
+                <div class="botones-num">
+                    <button class="ColorGris" onclick="DisplayAdd(7); Remplazo()">7</button>
+                    <button class="ColorGris" onclick="DisplayAdd(8); Remplazo()">8</button>
+                    <button class="ColorGris" onclick="DisplayAdd(9); Remplazo()">9</button>
+                    <button class="ColorNaranja" onclick="DisplayAdd('*'); Remplazo()">x</button>
+                </div>
                     
                     <div class="botones-num">
                         <button class="ColorGris" onclick="DisplayAdd(4); Remplazo()">4</button>
@@ -155,12 +176,14 @@
                     <div class="botones-num">
                         <button class="ColorGris cero" onclick="DisplayAdd(0); Remplazo()">0</button>
                         <button class="ColorGris punto" onclick="DisplayAdd('.'); Remplazo()">.</button>
-                        <button class="ColorNaranja" class="igual" onclick="calcular(); Remplazo()">=</button>
+                        <button class="ColorNaranja" class="igual" onclick="calcular(); Remplazo(); actu()">=</button>    
                     </div>
                     
                 </div>
+                <div class="caca"><div class="historial-content" id="historial-content" style="color: #FFF;"></div></div>
             </div>
-            </div>
+    </div>
+    </div>
         
 </div>
     
@@ -169,6 +192,12 @@
         let display = document.getElementById("display");
 
 
+
+        const vaciar = () => {
+            const datosVacios = [];
+
+            fs.writeFileSync("HIST.json", JSON.stringify(datosVacios, null, 2));
+        }
 
         const Remplazo = () => {
             var contenedor = document.getElementById("AC");
@@ -239,4 +268,26 @@
         }
         }
 
+
+function actu(){
+    const historialContent = document.getElementById('historial-content');
+    fetch('/MostrarHistorial')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.historial && data.historial.length > 0) {
+                            historialContent.innerHTML = ''; // Limpiar el contenido anterior del historial
+                            data.historial.forEach(item => {
+                                const cuenta = item.cuenta;
+                                const resultado = item.resultado;
+                                historialContent.innerHTML += `${resultado} = ${cuenta}<br>`;
+                            });
+                        } else {
+                            historialContent.innerHTML = 'El historial está vacío.';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error al cargar el historial:', error);
+                    });
+                historialContent.style.display = 'block'; 
+}
 </script>

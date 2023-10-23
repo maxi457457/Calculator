@@ -18,6 +18,37 @@ app.get('/', (req, res) => {
     renderView(res, 'calculator');
 });
 
+app.get('/historial', (req, res) => {
+    // Lee el contenido del archivo JSON
+    fs.readFile('HIST.json', 'utf8', (err, data) => {
+      if (err) {
+        // Maneja errores si ocurren al leer el archivo
+        console.error(err);
+        res.status(500).send('Error interno del servidor');
+      } else {
+        // Convierte el contenido del archivo en un objeto JSON
+        const datos = JSON.parse(data);
+  
+        // Envía el objeto JSON como respuesta
+        res.json(datos);
+      }
+    });
+  });
+
+  app.get('/MostrarHistorial', (req, res) => {
+    try {
+      const historialData = fs.readFileSync('HIST.json', 'utf-8');
+      const historial = JSON.parse(historialData);
+      res.json({ historial });
+    } catch (error) {
+      console.error('Error al cargar el historial:', error);
+      res.status(500).json({ error: 'Error al cargar el historial' });
+    }
+  });
+
+
+
+
 app.post("/HistorialAdd", (req, res) => {
     console.log(req.body)
     let registro = req.body
@@ -30,7 +61,7 @@ app.post("/HistorialAdd", (req, res) => {
         console.log("Error al leer el historial")
     }
 
-    historial.push(registro);
+    historial.unshift(registro);
     fs.writeFileSync('HIST.json', JSON.stringify(historial, null, 2));
 });
 
