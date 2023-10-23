@@ -1,6 +1,10 @@
 [
   {
-    "cuenta": "7-3",
-    "resultado": 4
+    "cuenta": "3+3",
+    "resultado": 6
+  },
+  {
+    "cuenta": "0",
+    "resultado": 0
   }
 ]
