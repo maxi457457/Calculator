@@ -129,7 +129,7 @@
             </div>
 
         </div>
-        <div class="nya"><div class="historialuso" id="historialuso" style="color: #fff;"></div></div>
+        
     </div>
 </div>
 
@@ -155,7 +155,14 @@
 
         if (boton.id === "igual") {
             try {
-                pantalla.textContent = eval(pantalla.textContent);
+                let operacion = pantalla.textContent; 
+                let resultado = eval(pantalla.textContent);
+                if (isNaN(resultado)) {
+                     pantalla.textContent = "Resultado no válido";
+                } else {
+                     pantalla.textContent = resultado;
+                     guardarHistorial({ operacion: operacion, resultado: resultado });
+                }
             } catch {
                 pantalla.textContent = "Error!";
             }
@@ -169,6 +176,19 @@
         }
     })
 })
+
+function guardarHistorial(operationData) {
+        fetch('/operacion', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(operationData), // Enviar la operación y el resultado
+        })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error(error));
+    }
 
 </script>
 
