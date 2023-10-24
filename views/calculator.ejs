@@ -15,15 +15,20 @@
     }
 
     .pantalla {
-        width: 40vw;
+        width: 100%;
         border: 0;
         background-color: black;
         color: white;
         font-size: 12vh;
-        text-align: right;
+        align-content: right;
         overflow: hidden;
-        margin-left: 30vw;
+        /* margin-left: 30vw; */
         height: 14vh;
+        place-self: center;
+    }
+
+    .valor-actual{
+    float: right;
     }
 
     button {
@@ -79,15 +84,64 @@
         background-color: rgb(255, 128, 0);
         color: aliceblue;
     }
+
+    .muestre{
+        display: flex;
+        width: 40%;
+        justify-content: flex-end;
+    }
+    
+    .historial-content{
+        font-size: 5vh;
+        font-family: 'Roboto';
+        text-align: end;
+    }
+
+    @media screen and (max-width: 992px){
+        button{
+            width: 10vh;
+            height: 10vh;
+            font-size: 4vh;
+        }
+
+        .cero{
+            width: 20vh;
+        }
+
+        .input{
+            font-size: 13vh;
+            padding-bottom: 10%;
+            padding-top: 10%;
+        }
+    
+        .pantalla{
+            width: 100%;
+            margin-left: 10vh; 
+            font-size: 10vh;
+            overflow: hidden;
+        }
+    }
+    
+    
+    
+    @media screen and (max-width: 992px){
+
+        .muestre{
+        display: none;
+    }
+    
+    .historial-content{
+        display: none;
+    }
+
+    }
     
 </style>
 
 
 <div class="calculadora">
     <div class="pantalla">
-        <div class="result" id="result">
         <div class="valor-actual">0</div>
-        </div>
     </div>
     <div class="containerbtn">
         <div class="botones">
@@ -129,12 +183,11 @@
             </div>
 
         </div>
-        
+        <div class="muestre"><div class="historial-content" id="historial-content" style="color: #fff;"></div></div>
     </div>
 </div>
 
 <script>
-
     const pantalla = document.querySelector(".valor-actual");
     const botones = document.querySelectorAll(".btn");
 
@@ -157,12 +210,9 @@
             try {
                 let operacion = pantalla.textContent; 
                 let resultado = eval(pantalla.textContent);
-                if (isNaN(resultado)) {
-                     pantalla.textContent = "Resultado no válido";
-                } else {
-                     pantalla.textContent = resultado;
-                     guardarHistorial({ operacion: operacion, resultado: resultado });
-                }
+                pantalla.textContent = resultado;
+                let operationData = { operacion: operacion, resultado: resultado};
+                guardarHistorial(operationData);
             } catch {
                 pantalla.textContent = "Error!";
             }
