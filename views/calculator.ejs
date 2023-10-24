@@ -1,11 +1,16 @@
 <style>
     *{
         background-color: black; 
+        font-family: 'Sometype Mono', monospace;
+        font-family: 'Ubuntu', sans-serif;
     }
 
-    @font-face {
-        font-family: 'Open 24 Display St';
-        src: url('./../assets/font/Open-24-Display-St.ttf');
+    @import url('https://fonts.googleapis.com/css2?family=Sometype+Mono&family=Ubuntu:wght@300&display=swap');
+    
+    .atra{
+        display: flex;
+        justify-content: end; 
+        width: 33vw;       
     }
 
     .botones {
@@ -22,7 +27,6 @@
         font-size: 12vh;
         align-content: right;
         overflow: hidden;
-        /* margin-left: 30vw; */
         height: 14vh;
         place-self: center;
     }
@@ -64,13 +68,6 @@
         width: fit-content;
     }
 
-    /* .pantalla {
-        text-align: right;
-        width: 60vh;
-        overflow: hidden;
-        margin-left: 38vw;
-    } */
-
     .ColorGris {
         background-color: rgb(195, 187, 187);
     }
@@ -95,6 +92,18 @@
         font-size: 5vh;
         font-family: 'Roboto';
         text-align: end;
+    }
+
+    .ColorGris2:active {
+        background-color: rgb(99, 99, 99);
+    }
+
+    .ColorNaranja:active{
+        background-color: rgb(199, 198, 198);
+    }
+
+    .ColorGris:active{
+        background-color: rgb(235, 234, 234);
     }
 
     @media screen and (max-width: 992px){
@@ -142,10 +151,15 @@
 <div class="calculadora">
     <div class="pantalla">
         <div class="valor-actual">0</div>
+        <div class="atra">
+            <button class="ColorGris btn" id="borrar">←</button>
+        </div>
     </div>
-    <div class="containerbtn">
-        <div class="botones">
 
+    <div class="containerbtn">
+        
+                    
+        <div class="botones">
 
             <div class="botones-fx">
                 <button class="ColorGris btn" id="AC">AC</button>
@@ -176,14 +190,12 @@
             </div>
             
             <div class="botones-num">
-                <button class="ColorGris2 btn">0</button>
+                <button class="ColorGris2 cero btn">0</button>
                 <button class="ColorGris2 btn">.</button>
-                <button class="ColorNaranja btn" id="Hist">H</button>
                 <button class="ColorNaranja btn" id="igual">=</button>
             </div>
 
         </div>
-        <div class="muestre"><div class="historial-content" id="historial-content" style="color: #fff;"></div></div>
     </div>
 </div>
 
@@ -194,6 +206,15 @@
     botones.forEach(boton => {
     boton.addEventListener("click", () => {
         const botonApretado = boton.textContent;
+
+        if (boton.id === "borrar") {
+            if (pantalla.textContent.length === 1 || pantalla.textContent === "Error!") {
+                pantalla.textContent = "0";
+            } else {
+                pantalla.textContent = pantalla.textContent.slice(0, -1);
+            }
+            return;
+        }
         
         if (boton.id === "Hist"){
             pantalla.textContent = pantalla.textContent.slice(0, -1);
