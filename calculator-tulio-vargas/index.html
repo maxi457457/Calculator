@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+<body>
+    <form class="Calculadora" name="calc">
+        <input type="text" name="txt" class="inputarea">
+        <span onclick="document.calc.txt.value += '1';">1</span>
+        <span onclick="document.calc.txt.value += '2';">2</span>
+        <span onclick="document.calc.txt.value += '3';">3</span>
+        <span class="limpiar" onclick="limpiarCampo();">C</span>
+        <span onclick="document.calc.txt.value += '4';">4</span>
+        <span onclick="document.calc.txt.value += '5';">5</span>
+        <span onclick="document.calc.txt.value += '6';">6</span>
+        <span class="operacio plus" onclick="document.calc.txt.value += '+';">+</span>
+        <span onclick="document.calc.txt.value += '7';">7</span>
+        <span onclick="document.calc.txt.value += '8';">8</span>
+        <span onclick="document.calc.txt.value += '9';">9</span>
+        <span onclick="document.calc.txt.value += '0';">0</span>
+        <span onclick="document.calc.txt.value += '.';">.</span>
+        <span onclick="document.calc.txt.value = backspace(document.calc.txt.value);">B</span>
+        <span class="operacion" onclick="document.calc.txt.value += '-';">-</span>
+        <span class="igual" onclick="document.calc.txt.value = calcul(document.calc.txt.value);">=</span>
+        <span class="operacion" onclick="document.calc.txt.value += '*';">*</span>
+        <span class="operacion" onclick="document.calc.txt.value += '/';">/</span>
+    </form>
+    <div id="historial">
+        <h1>HISTORIAL</h1>
+    </div>
+    
+    <button id="btn-historial" onclick="mostrarOcultarHistorial();">Mostrar/Ocultar Historial</button>
+    <button id="btn-borrar-historial" onclick="borrarHistorial();">Borrar Historial</button>
+
+    
+    
+    <script src="index.js"></script>
+</body>
+</html>
