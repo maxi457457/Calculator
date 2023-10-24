@@ -1,3 +1,3 @@
 # Calculator
 Trabajo practico 2
-Creo que está terminado
+Creo que está terminado supliendo detalles
