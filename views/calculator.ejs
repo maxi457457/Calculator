@@ -1,134 +1,312 @@
 <style>
     @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
+      font-family: "Open 24 Display St";
+      src: url('./../assets/font/Open-24-Display-St.ttf');
     }
-
+  
     .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
+      display: block;
+      width: 100vw;
+      padding-left: 38vw;
     }
-
+  
     input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
+      width: 100vh;
+      border: 0;
+      background-color: black;
+      color: white;
+      font-size: 15vh;
+      text-align: end;
     }
-
+  
     div {
-        display: flex;
+      display: flex;
     }
-
+  
     button {
-        width: 15vh;
-        height: 15vh;
-        border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
+      width: 15vh;
+      height: 15vh;
+      border-radius: 100%;
+      font-size: 3.5em;
+      margin: 0.3%;
     }
-
+  
     .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
-
+      width: 30vh;
+      border-radius: 50vh;
+      text-align: left;
+      padding-left: 35px;
+      padding-right: 100px;
     }
-
+  
     .pantalla {
-        background-color: black;
-    }
+      background-color: black;
 
+    }
+  
     .pantalla-calculadora {
-        background-color: black;
+      background-color: rgb(238, 142, 142);
     }
-
+  
     .calculadora {
-        font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
+      font-family: 'Open 24 Display St';
+      display: flex;
+      flex-direction: column;
+      width: fit-content;
+      
     }
-
+  
     .pantalla {
-        text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
+      text-align: end;
+      width: 45vh;
+      overflow: hidden;
+      margin-left: 38vw;
     }
-
+  
     .pantalla-botones {
-        display: flex;
-
+      display: flex;
     }
-
+  
     .ColorGris {
-        background-color: rgb(195, 187, 187);
+      background-color: rgb(195, 187, 187);
     }
-
+  
     .ColorNaranja {
-        background-color: orange;
+      background-color: orange;
     }
-</style>
 
 
-<div class="calculadora">
+    #historial-btn {
+        position: absolute;
+        top: 10px;
+        right: 400px;
+        background-color: #67578f;
+        color: white;
+        border: none;
+        padding: 10px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 20%; 
+        transition: box-shadow 0.3s ease; /* Agrega una transición a la sombra */
+    }
+
+    #historial-btn:active {
+    transform: translateY(2px); /* Mueve el botón ligeramente hacia abajo al hacer clic */
+}
+
+    #historial-btn:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Agrega una sombra al pasar el cursor */
+    }
+
+    #historial-container {
+        display: none;
+        position: absolute;
+        top: 109px; /* Ajusta el valor aquí para moverlo más abajo */
+        right: 400px;
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agrega una sombra leve */
+        border: 1px solid #7e4b4b; 
+        z-index: 1; /* Asegura que el contenedor esté sobre la calculadora */
+    }
+
+    
+  </style>
+  
+<button id="historial-btn" onclick="mostrarHistorial()">Historial</button>
+<div id="historial-container"></div>
+
+  <div class="calculadora">
     <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
-
+      <input type="text" name="mogul" onkeypress="return soloNumeros(event)">
+      <div class="pantalla-botones">
+        <button onclick="borrarCaracter()">X</button>
+        
+      </div>
     </div>
     <div class="containerbtn">
-        <div class="botones">
-
-
-            <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
-            </div>
+      <div class="botones">
+        <div class="botones-fx">
+          <button onclick="borrar()">AC</button>
+          <button onclick="agregarParentesis('(')">(</button>
+          <button onclick="agregarParentesis(')')">)</button>
+          <button class="ColorNaranja" onclick="dividir()">/</button>
         </div>
+        <div class="botones-num">
+          <button class="ColorGris" onclick="num(7)">7</button>
+          <button class="ColorGris" onclick="num(8)">8</button>
+          <button class="ColorGris" onclick="num(9)">9</button>
+          <button class="ColorNaranja" onclick="product()">x</button>
+        </div>
+        <div class="botones-num">
+          <button class="ColorGris" onclick="num(4)">4</button>
+          <button class="ColorGris" onclick="num(5)">5</button>
+          <button class="ColorGris" onclick="num(6)">6</button>
+          <button class="ColorNaranja" onclick="rest()">-</button>
+        </div>
+        <div class="botones-num">
+          <button class="ColorGris" onclick="num(1)">1</button>
+          <button class="ColorGris" onclick="num(2)">2</button>
+          <button class="ColorGris" onclick="num(3)">3</button>
+          <button class="ColorNaranja" onclick="suma()">+</button>
+        </div>
+        <div class="botones-num">
+          <button class="ColorGris cero" onclick="num(0)">0</button>
+          <button class="ColorGris punto" onclick="coma()">.</button>
+          <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
+        </div>
+      </div>
     </div>
-</div>
+  </div>
+  
+  
+  
+   
+  <script>
 
-<script>
+
+  function soloNumeros(event) {
+    const charCode = event.which ? event.which : event.keyCode;
+
+    // Permite números del 0 al 9 y el punto decimal
+    if (charCode < 48 || charCode > 57) {
+      if (charCode !== 46) {
+        event.preventDefault();
+        return false;
+      }
+    }
+    return true;
+  }
+
+
+    let operacionActual = '';
+    let calculations = [];
+    let screen = document.querySelector('input[name="mogul"]');
+    const historialContainer = document.getElementById('historial-container');
+
+    function addToDisplay(value) {
+        operacionActual += value;
+        screen.value = operacionActual;
+    }
+
+    function borrarCaracter() {
+        const valorActual = screen.value;
+        const nuevoValor = valorActual.slice(0, -1);
+        screen.value = nuevoValor;
+    }
+
+    window.onload = function () {
+        setTimeout(function() {
+            screen.focus();
+        }, 100);
+    };
+
     function borrar() {
-        alert("ola")
+        screen.value = '';
     }
-    function num(num) {
 
+    function num(num) {
+        screen.value += num;
     }
+
+    function dividir() {
+        const valorActual = screen.value;
+        screen.value = valorActual + '/';
+    }
+
+    function product() {
+        const valorActual = screen.value;
+        screen.value = valorActual + '*';
+    }
+
+    function rest() {
+        const valorActual = screen.value;
+        screen.value = valorActual + '-';
+    }
+
+    function suma() {
+        const valorActual = screen.value;
+        screen.value = valorActual + '+';
+    }
+
+    function coma() {
+        const valorActual = screen.value;
+        if (!valorActual.includes('.')) {
+            screen.value = valorActual + '.';
+        }
+    }
+
+    function calcularYGuardar() {
+        const valorActual = screen.value;
+        try {
+            const result = eval(valorActual);
+            const calculation = {
+                input: valorActual,
+                result: result
+            };
+            calculations.push(calculation);
+            saveCalculations(calculations);
+            operacionActual = '';
+            screen.value = result;
+        } catch (error) {
+            operacionActual = '';
+            screen.value = 'Error';
+        }
+    }
+
+    function agregarParentesis(paren) {
+        screen.value += paren;
+    }
+
+    function saveCalculations(calculations) {
+        fetch('/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(calculations)
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function mostrarHistorial() {
+        historialContainer.innerHTML = '';
+
+        calculations.forEach(calculation => {
+            const historialItem = document.createElement('p');
+            historialItem.textContent = `${calculation.input} = ${calculation.result}`;
+            historialContainer.appendChild(historialItem);
+        });
+
+        historialContainer.style.display = historialContainer.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function resultado() {
+    const valorActual = screen.value;
+    try {
+        const result = eval(valorActual);
+        screen.value = result;
+        operacionActual = '';
+        const calculation = {
+            input: valorActual,
+            result: result
+        };
+        calculations.push(calculation);
+        saveCalculations(calculations);
+    } catch (error) {
+        screen.value = 'Error';
+    }
+}
 </script>
+
+    
