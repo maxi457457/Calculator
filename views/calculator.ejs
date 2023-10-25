@@ -1,134 +1,231 @@
-<style>
-    @font-face {
-        font-family: "Open 24 Display St";
-        src: url('./../assets/font/Open-24-Display-St.ttf');
-    }
+<div id="calcu">
+    <div id="calculadora">
+        <form name="calculadora">
+            <!-- Campo de entrada de la calculadora -->
+            <input type="text" name="input" value="" autocomplete="off" readonly>
 
-    .botones {
-        display: block;
-        width: 100vw;
-        padding-left: 38vw;
-    }
+            <!-- Botones numéricos y de operación -->
+            <input type="button" value="7" onclick="addToInput('7')" class="gray">
+            <input type="button" value="8" onclick="addToInput('8')" class="gray">
+            <input type="button" value="9" onclick="addToInput('9')" class="gray">
+            <input type="button" value="X" onclick="addToInput('*')" class="orange">
+            <br>
+            <input type="button" value="4" onclick="addToInput('4')" class="gray">
+            <input type="button" value="5" onclick="addToInput('5')" class="gray">
+            <input type="button" value="6" onclick="addToInput('6')" class="gray">
+            <input type="button" value="--" onclick="addToInput('-')" class="orange">
+            <br>
+            <input type="button" value="1" onclick="addToInput('1')" class="gray">
+            <input type="button" value="2" onclick="addToInput('2')" class="gray">
+            <input type="button" value="3" onclick="addToInput('3')" class="gray">
+            <input type="button" value="+" onclick="addToInput('+')" class="orange">
+            <br>
+            <input type="button" value="0" onclick="addToInput('0')" class="gray">
+            <input type="reset" id="reset" value="AC" class="orange">
+            <input type="button" value="/" onclick="addToInput('/')" class="orange">
+            <input type="button" value="=" onclick="calculate()" class="orange">
+        </form>
 
-    input {
-        width: 50vw;
-        border: 0;
-        background-color: black;
-        color: white;
-        font-size: 15vh;
-        text-align: end;
-    }
-
-    div {
-        display: flex;
-    }
-
-    button {
-        width: 15vh;
-        height: 15vh;
-        border-radius: 100%;
-        font-size: 3.5em;
-        margin: 0.3%;
-    }
-
-    .cero {
-        width: 30vh;
-        border-radius: 50vh;
-        text-align: left;
-        padding-left: 35px;
-        padding-right: 100px;
-
-    }
-
-    .pantalla {
-        background-color: black;
-    }
-
-    .pantalla-calculadora {
-        background-color: black;
-    }
-
-    .calculadora {
-        font-family: 'Open 24 Display St';
-        display: flex;
-        flex-direction: column;
-        width: fit-content;
-    }
-
-    .pantalla {
-        text-align: end;
-        width: 45vh;
-        overflow: hidden;
-        margin-left: 38vw;
-    }
-
-    .pantalla-botones {
-        display: flex;
-
-    }
-
-    .ColorGris {
-        background-color: rgb(195, 187, 187);
-    }
-
-    .ColorNaranja {
-        background-color: orange;
-    }
-</style>
-
-
-<div class="calculadora">
-    <div class="pantalla">
-        <input type="" name="mogul">
-        <div class="pantalla-botones">
-            <button onclick="borrar2()">X</button>
-        </div>
-
+        <!-- Botón para mostrar/ocultar el historial -->
+        <button class="historial" id="historial" onclick="toggleHistorial()"><i class="bi bi-clock-history"></i></button>
     </div>
-    <div class="containerbtn">
-        <div class="botones">
-
-
-            <div class="botones-fx">
-                <button onclick="borrar()">AC</button>
-                <button onclick="">(</button>
-                <button onclick="">)</button>
-                <button class="ColorNaranja" onclick="dividir()">/</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(7)">7</button>
-                <button class="ColorGris" onclick="num(8)">8</button>
-                <button class="ColorGris" onclick="num(9)">9</button>
-                <button class="ColorNaranja" onclick="product()">x</button>
-            </div>
-
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(4)">4</button>
-                <button class="ColorGris" onclick="num(5)">5</button>
-                <button class="ColorGris" onclick="num(6)">6</button>
-                <button class="ColorNaranja" onclick="rest()">-</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris" onclick="num(1)">1</button>
-                <button class="ColorGris" onclick="num(2)">2</button>
-                <button class="ColorGris" onclick="num(3)">3</button>
-                <button class="ColorNaranja" onclick="suma()">+</button>
-            </div>
-            <div class="botones-num">
-                <button class="ColorGris cero" onclick="num(0)">0</button>
-                <button class="ColorGris punto" onclick="coma()">.</button>
-                <button class="ColorNaranja" class="igual" onclick="resultado()">=</button>
-            </div>
-        </div>
+    
+    <!-- Historial de cálculos -->
+    <div id="historial" class="historial">
+        <% historial.forEach(function (item) { %>
+            <p><%= item.expression %> = <%= item.result %></p>
+        <% }) %>
     </div>
 </div>
 
-<script>
-    function borrar() {
-        alert("ola")
-    }
-    function num(num) {
+<style>
+    /* Importación de fuentes y estilos de iconos */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@100;600&family=Koulen&family=Roboto:wght@100&display=swap');
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
 
+/* Estilos del contenedor principal */
+#calcu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    height: 90vh;
+    position: relative;
+}
+
+/* Estilos del contenedor de la calculadora */
+#calculadora {
+    width: 300px;
+    border-radius: 5px;
+    position: relative;
+}
+
+/* Estilos del formulario de la calculadora */
+#calcu form {
+    height: 430px;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    border-radius: 5px;
+}
+
+/* Estilos del campo de entrada de la calculadora */
+#calcu input[type="text"] {
+    height: 25%;
+    width: 100%;
+    cursor: default;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(0, 0, 0);
+    color: white;
+    padding: 15px;
+    text-align: right;
+    border: 0;
+    font-size: 50px;
+    outline: none;
+    margin-top: 5px;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilos de los botones de la calculadora */
+#calcu input[type=button],
+#calcu input[type=reset] {
+    width: 22%;
+    cursor: pointer;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    font-size: 26px;
+    color: black;
+    padding: 18px;
+    margin: 3px;
+    margin-top: 6px;
+    border: 0;
+    border-radius: 100%;
+}
+
+/* Estilos de los botones de operación de color naranja */
+#calcu .orange {
+    background-color: rgb(253, 149, 3) !important;
+    color: white !important;
+}
+
+/* Estilos de los botones grises */
+#calcu .gray {
+    background-color: rgb(51, 51, 51) !important;
+    color: white !important;
+}
+
+/* Estilos del contenedor del historial de cálculos */
+.historial {
+    display: none;
+    height: 430px;
+    width: 300px;
+    border: 1px solid black;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-left: 30px;
+    background-color: black;
+    max-height: 430px;
+    overflow-y: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: black;
+    border: 0;
+    margin: 5px;
+    color: white;
+}
+
+/* Estilos para los elementos de historial de cálculos */
+.historial p {
+    font-family: 'Roboto', sans-serif;
+    margin-left: 10px;
+    color: white;
+}
+</style>
+
+<script>
+    // Función para mostrar/ocultar el historial
+    function toggleHistorial() {
+        var historial = document.getElementById('historial');
+        if (historial.style.display === 'none') {
+            historial.style.display = 'block';
+        } else {
+            historial.style.display = 'none';
+        }
     }
+
+    // Obtener el campo de entrada de la calculadora
+    var input = document.calculadora.input;
+
+    // Función para agregar valor al campo de entrada
+    function addToInput(value) {
+        var currentValue = input.value;
+        var lastChar = currentValue.slice(-1);
+
+        // Evitar que se ingrese un operador como primer valor o dos operadores seguidos
+        if (currentValue === '' && isOperador(value) || isOperador(lastChar) && isOperador(value)) {
+            return;
+        }
+
+        input.value += value;
+        input.scrollLeft = input.scrollWidth;
+    }
+
+    // Función para verificar si el valor es un operador
+    function isOperador(value) {
+        return ['+', '-', '*', '/'].includes(value);
+    }
+
+    // Función para calcular el resultado de la expresión
+    function calculate() {
+        var expression = input.value;
+
+        if (expression === '') {
+            return;
+        }
+
+        var result = eval(expression);
+        input.value = result;
+
+        var historial = JSON.parse(localStorage.getItem('historial')) || [];
+
+        // Agregar la expresión y el resultado al historial
+        historial.push({ expression, result });
+
+        // Almacenar el historial en el almacenamiento local
+        localStorage.setItem('historial', JSON.stringify(historial));
+
+        // Enviar datos al servidor (comentario genérico, se necesita más contexto)
+        fetch('/guardar-historial', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ historial })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    // Capturar números y operadores ingresados por teclado
+    document.addEventListener('keydown', function (event) {
+        var key = event.key;
+
+        // Verificar si es un número
+        var isNum = /^\d$/.test(key);
+
+        // Verificar si es un operador (+, -, *, /)
+        var isOperacion = /^[\+\-\*\/]$/.test(key);
+
+        if (isNum || isOperacion) {
+            // Agregar el valor al campo de entrada
+            addToInput(key);
+            event.preventDefault(); // Evitar que se procese en el campo de entrada
+        }
+    });
 </script>
